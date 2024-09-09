@@ -6,7 +6,10 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { defineCustomElements } from "@teamhive/lottie-player/loader";
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+
+
 defineCustomElements(window);
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot({mode:"md"}), AppRoutingModule],

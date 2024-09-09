@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +8,7 @@ import { PopoverController } from '@ionic/angular';
 })
 export class HomePage {
   searchQuery: string = '';
-  categories: string[] = ['Cervezas', 'Vinos', 'Ron', 'Whisky', 'Tequila'];
+  categories: string[] = ['Cervezas', 'Vinos', 'Ron', 'Whisky'];
   isAuthenticated: boolean = false; // Variable para verificar autenticación
 
   featuredProducts = [
@@ -17,30 +17,19 @@ export class HomePage {
     { name: 'Cervezas', img: 'assets/imgs/cervezas.png' }
   ];
 
-  constructor(private popoverController: PopoverController) {}
+  constructor(private popoverController: PopoverController, private menuController: MenuController) {}
 
   ngOnInit() {
-    const user = localStorage.getItem('user');
-    this.isAuthenticated = !!user; // Verificar si el usuario ha iniciado sesión
+    
   }
 
-  async presentPopover(ev: any) {
-    const popover = await this.popoverController.create({
-      component: 'popover-component',
-      event: ev,
-      translucent: true
-    });
-    await popover.present();
+
+  openSecondaryMenu() {
+    this.menuController.open('secondary-menu');
   }
 
-  viewAccount() {
-    console.log('Ver Cuenta');
+  
 
-  }
+  
 
-  logout() {
-    console.log('Cerrar Sesión');
-    localStorage.removeItem('user');
-    this.isAuthenticated = false;
-  }
 }

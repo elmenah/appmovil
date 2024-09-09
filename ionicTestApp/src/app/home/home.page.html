@@ -1,29 +1,70 @@
+<!-- Menú lateral izquierdo -->
+<ion-menu side="start" menuId="main-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú Principal</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button>Inicio</ion-item>
+      <ion-item button>Sucursales</ion-item>
+      <ion-item button>Preguntas Frecuentes</ion-item>
+      <ion-item button>Contactanos</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- Menú lateral derecho -->
+<ion-menu side="end" menuId="secondary-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Mi cuenta</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button>Ver mis pedidos</ion-item>
+      <ion-item button>Cerrar Sesion</ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+
+<!-- Contenido principal -->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- Botón del menú lateral -->
-      <ion-menu-button></ion-menu-button>
+      <!-- Botón del menú lateral izquierdo -->
+      <ion-menu-button menu="main-menu"></ion-menu-button>
     </ion-buttons>
     <ion-title>LA TERRAZA</ion-title>
-    <ion-avatar slot="end" (click)="presentPopover($event)">
-      <img src="assets/imgs/avatar.png" alt="User Avatar">
-    </ion-avatar>
+    <ion-buttons slot="end">
+      <!-- Botón del menú lateral derecho con icono de avatar -->
+      <ion-button (click)="openSecondaryMenu()">
+        <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1"
+          style="margin-top: -10px;" />
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content id="main-content"> <!-- Vinculado al contentId del menú -->
   <ion-grid>
     <!-- Barra de búsqueda -->
     <ion-row>
       <ion-col size="12">
-        <ion-searchbar [(ngModel)]="searchQuery" placeholder="Busca algún producto"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="searchQuery" placeholder="Busca algún producto" class="barrabusqueda"></ion-searchbar>
       </ion-col>
     </ion-row>
 
     <!-- Filtro de productos -->
     <ion-row class="product-filters">
-      <ion-col size="2" *ngFor="let category of categories">
-        <ion-chip>
+      <ion-col size="auto" *ngFor="let category of categories" class="filter-col">
+        <ion-chip class="categorias">
           <ion-label>{{ category }}</ion-label>
         </ion-chip>
       </ion-col>
@@ -32,9 +73,9 @@
     <!-- Promoción del día -->
     <ion-row>
       <ion-col size="12">
-        <ion-card>
+        <ion-card class="cardpromociondeldia">
           <img src="assets/imgs/royal_guard.png" alt="Promoción Royal Guard">
-          <ion-card-content>
+          <ion-card-content >
             <h2>50-40% OFF</h2>
             <p>Now in (Product)</p>
             <p>All colours</p>
@@ -51,7 +92,7 @@
           <ion-card-content>
             <h3>Oferta del día</h3>
             <p>22h 55m 20s remaining</p>
-            <ion-button fill="outline">View All</ion-button>
+            <ion-button fill="outline">Ver</ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -70,38 +111,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<!-- Popover del avatar -->
-<ion-popover [trigger]="'avatar-popover'" trigger-action="click" side="bottom" alignment="end">
-  <ion-content>
-    <ion-list>
-      <ion-item button (click)="viewAccount()">Ver Cuenta</ion-item>
-      <ion-item button (click)="logout()">Cerrar Sesión</ion-item>
-    </ion-list>
-  </ion-content>
-</ion-popover>
-
-<!-- Tabs de navegación -->
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <ion-icon name="home"></ion-icon>
-      <ion-label>Home</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="wishlist">
-      <ion-icon name="heart"></ion-icon>
-      <ion-label>Wishlist</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="search">
-      <ion-icon name="search"></ion-icon>
-      <ion-label>Search</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="settings">
-      <ion-icon name="settings"></ion-icon>
-      <ion-label>Settings</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
