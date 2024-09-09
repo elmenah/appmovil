@@ -1,33 +1,41 @@
-<ion-header [translucent]="true">
- 
+<ion-header>
   <ion-toolbar>
-
-    <ion-title>login</ion-title>
-
+    <ion-title>Iniciar Sesión</ion-title>
   </ion-toolbar>
-
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">LOGIN</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <h1 style="color: black;">Que bueno verte de nuevo</h1>
+        <h2 style="color: black;">Inicio Sesión</h2>
+      </ion-col>
+    </ion-row>
 
-  <div class="content-container">
-    <div class="input-container">
-      <ion-item>
-        <ion-input placeholder="Usuario" type="text" [(ngModel)]="user"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
-      </ion-item>
-    </div>
-  
-    <div class="button-container">
-      <ion-button expand="block" (click)="onLoginButtonPressed()">Login</ion-button>
-      <ion-button expand="block" (click)="onRegisterButtonPressed()">Register</ion-button>
-    </div>
-  </div>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-input placeholder="Correo" type="email" [(ngModel)]="user"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
+        </ion-item>
+        <ion-button expand="full" (click)="onLoginButtonPressed()">Iniciar Sesión</ion-button>
+        <div class="ion-text-center">
+          <p style="color: black;">¿No tienes una cuenta?</p>
+          <ion-button fill="clear" (click)="onRegisterButtonPressed()">REGÍSTRATE AQUÍ</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <ion-button expand="full" fill="solid" color="danger">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Iniciar con Google
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
