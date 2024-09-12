@@ -17,8 +17,9 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  onLoginButtonPressed() {
-    if(this.sessionManager.performLogin(this.user, this.password)) {//usa la clase session manager y le pasa por parametro user y password
+  async onLoginButtonPressed() {
+    if(this.sessionManager.performLogin(this.user, this.password)) { //usa la clase session manager y le pasa por parametro user y password
+      await this.presentWelcomeAlert(this.user);
       this.router.navigate(['/home'])
     } else {
       this.user=''
@@ -45,3 +46,4 @@ export class LoginPage implements OnInit {
   }
 
 }
+

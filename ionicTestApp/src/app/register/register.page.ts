@@ -63,4 +63,8 @@ export class RegisterPage {
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
     return passwordPattern.test(password);
   }
+
+  async onLoginButtonPressed() {
+    this.router.navigate(['/login']);
+  }
 }

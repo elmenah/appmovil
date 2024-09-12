@@ -1,43 +1,49 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/login"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Registro</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
   <ion-grid>
     <ion-row>
       <ion-col size="12" class="ion-text-center">
-        <h1 style="color: black;">Hola!!</h1>
-        <h2 style="color: black;">¿Quieres ser parte de la terraza? <br> Por favor, regístrate</h2>
+        <h1>¿Te unes a la terraza?</h1>
+        <h4>Regístrate</h4>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <img src="assets/img/logo-terraza.png" alt="logo" class="logo">
       </ion-col>
     </ion-row>
 
     <ion-row>
       <ion-col size="12">
-        <ion-item>
-          <ion-input placeholder="Nombre de Usuario" [(ngModel)]="username"></ion-input>
+        <ion-item class="inputs">
+          <img src="assets/img/usuario.png" alt="Icono usuario" width="26px" style="padding-right: 10px;">
+          <ion-input placeholder="Usuario" type="text" [(ngModel)]="username"></ion-input>
         </ion-item>
-        <ion-item>
-          <ion-input placeholder="Correo Electrónico" [(ngModel)]="email"></ion-input>
-        </ion-item>
-        <ion-item>
+        <ion-item class="inputs">
+          <img src="assets/img/contrasena.png" alt="Icono clave" width="29px" style="padding-right: 10px;">
           <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
         </ion-item>
-        <ion-button expand="full" (click)="onRegisterButtonPressed()">Regístrate</ion-button>
+        <ion-item class="inputs">
+          <img src="assets/img/correo-electronico.png" alt="Icono correo" width="29px" style="padding-right: 10px;">
+          <ion-input placeholder="Correo" type="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="onRegisterButtonPressed()">Registro</ion-button>
 
-        <!-- Botón de Google -->
         <ion-row>
           <ion-col size="12" class="ion-text-center">
-            <ion-button expand="full" fill="solid" color="danger">
+            <ion-button fill="clear" class="btnlogingoogle">
               <ion-icon name="logo-google" slot="start"></ion-icon>
-              Regístrate con Google
+              Registrarme con Google
             </ion-button>
           </ion-col>
         </ion-row>
+
+        <div class="ion-text-center">
+          <p style="color: white;">¿Ya tienes una cuenta?</p>
+          <ion-button fill="clear" (click)="onLoginButtonPressed()" class="btnirregistro">
+            INICIAR SESIÓN
+          </ion-button>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
