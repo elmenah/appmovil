@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'splash',
+    redirectTo: 'comienzo',
     pathMatch: 'full'
   },
   {
@@ -23,6 +23,24 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  
+  
+  {
+    path: 'comienzo',
+    loadChildren: () => import('./comienzo/comienzo.module').then( m => m.ComienzoPageModule)
+  },
+  {
+    path: 'instructivo1',
+    loadChildren: () => import('./instructivo1/instructivo1.module').then( m => m.Instructivo1PageModule)
+  },
+  {
+    path: 'instructivo2',
+    loadChildren: () => import('./instructivo2/instructivo2.module').then( m => m.Instructivo2PageModule)
+  },
+  {
+    path: 'instructivo3',
+    loadChildren: () => import('./instructivo3/instructivo3.module').then( m => m.Instructivo3PageModule)
   },
   {
     path: '**',
