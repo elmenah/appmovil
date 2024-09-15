@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-instructivo3',
   templateUrl: './instructivo3.page.html',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Instructivo3Page implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
-
+  irahora(){
+    this.router.navigate(['/register']);
+  }
+  prev2(){
+    this.router.navigate(['/instructivo2']);
+  }
+  
 }
