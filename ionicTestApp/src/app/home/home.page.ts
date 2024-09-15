@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { PopoverController, MenuController } from '@ionic/angular';
-
+import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -20,7 +20,7 @@ export class HomePage {
     { name: 'Cervezas', img: 'assets/imgs/cervezas.png' }
   ];
 
-  constructor(private popoverController: PopoverController, private menuController: MenuController) {}
+  constructor(private router: Router, private menuController: MenuController) {}
 
   ngOnInit() {
     const savedTime = localStorage.getItem('endTime');
@@ -56,7 +56,9 @@ export class HomePage {
   openSecondaryMenu() {
     this.menuController.open('secondary-menu');
   }
-
+  logout(){
+    this.router.navigate(['/login']);
+  }
   
 
   
