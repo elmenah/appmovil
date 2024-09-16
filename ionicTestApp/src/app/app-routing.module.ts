@@ -43,9 +43,15 @@ const routes: Routes = [
     loadChildren: () => import('./instructivo3/instructivo3.module').then( m => m.Instructivo3PageModule)
   },
   {
+    path: 'categoriacerveza',
+    loadChildren: () => import('./categoriacerveza/categoriacerveza.module').then( m => m.CategoriacervezaPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule)//Pagina error siempre va al ultimo
   },
+  
+
 
 ];
 

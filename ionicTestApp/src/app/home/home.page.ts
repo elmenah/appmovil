@@ -23,10 +23,7 @@ export class HomePage {
   constructor(private router: Router, private menuController: MenuController) {}
 
   ngOnInit() {
-    const savedTime = localStorage.getItem('endTime');
-    if (savedTime) {
-      this.endTime = parseInt(savedTime, 10);
-    }
+    
     this.startCountdown();
 
   }

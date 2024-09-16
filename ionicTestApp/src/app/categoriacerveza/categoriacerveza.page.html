@@ -1,0 +1,41 @@
+<!-- Menú lateral izquierdo -->
+<ion-menu side="start" menuId="main-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú Principal</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button>Inicio</ion-item>
+      <ion-item button>Sucursales</ion-item>
+      <ion-item button>Preguntas Frecuentes</ion-item>
+      <ion-item button>Contactanos</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- Menú lateral derecho -->
+<ion-menu side="end" menuId="secondary-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Mi cuenta</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button>Ver mis pedidos</ion-item>
+      <ion-item button (click)="logout()">Cerrar Sesion</ion-item>
+
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+
+
+
+
+
+
+
+   
