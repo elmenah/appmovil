@@ -64,11 +64,11 @@
     <!-- Filtro de productos -->
     <ion-row class="product-filters">
       <ion-col size="auto" *ngFor="let category of categories" class="filter-col">
-        <ion-chip class="categorias">
+        <ion-chip class="categorias" (click)="goToCategory(category)">
           <ion-label>{{ category }}</ion-label>
         </ion-chip>
       </ion-col>
-    </ion-row>
+    </ion-row>                                          
 
     <!-- Promoción del día -->
     <ion-row>

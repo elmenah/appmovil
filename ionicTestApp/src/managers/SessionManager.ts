@@ -3,21 +3,34 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-
 export class SessionManager {
 
     private readonly temporaryUserName: string = 'user';
     private readonly temporaryPass: string = 'pass';
 
-    performLogin(user: string, password: string): boolean {//Si el usuario y clave pasado por parametro es igual al temporary user y clave retorna true
-        if(user == this.temporaryUserName && password == this.temporaryPass) {
+    // Guarda el estado del login en localStorage
+    setSession(isLoggedIn: boolean): void {
+        localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+    }
+
+    // Verifica si el usuario está logueado
+    isLoggedIn(): boolean {
+        const session = localStorage.getItem('isLoggedIn');
+        return session ? JSON.parse(session) : false;
+    }
+
+    // Lógica para iniciar sesión
+    performLogin(user: string, password: string): boolean {
+        if (user === this.temporaryUserName && password === this.temporaryPass) {
+            this.setSession(true); // Guarda que el usuario está logueado
             return true;
         } else {
             return false;
-        }  
+        }
     }
 
-    performLogout() {
-        //TODO
+    // Lógica para cerrar sesión
+    performLogout(): void {
+        this.setSession(false); // Establece que el usuario no está logueado
     }
 }

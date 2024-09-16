@@ -10,11 +10,14 @@ export class Instructivo1Page implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit() {
+    // Marcar el instructivo como visto cuando la página se cargue
+    localStorage.setItem('instructivoSeen', 'true');
   }
   next1(){
     this.router.navigate(['/instructivo2']);
   }
-  skip(){
-    this.router.navigate(['/register']);
+  skip() {
+    localStorage.setItem('instructivoSeen', 'true'); // Almacena que el usuario ha hecho "Skip"
+    this.router.navigate(['/login']); // Redirige al Home después de saltarlo
   }
 }

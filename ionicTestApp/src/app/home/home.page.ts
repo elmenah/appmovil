@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { SessionManager } from 'src/managers/SessionManager'; // Importa desde la ruta correcta
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -20,12 +22,25 @@ export class HomePage {
     { name: 'Cervezas', img: 'assets/imgs/cervezas.png' }
   ];
 
-  constructor(private router: Router, private menuController: MenuController) {}
+  constructor(private router: Router, private menuController: MenuController,private sessionManager: SessionManager) {}
 
   ngOnInit() {
     
     this.startCountdown();
 
+  }
+
+   // Función para redirigir a la categoría seleccionada
+   goToCategory(category: string) {
+    if (category === 'Cervezas') {
+      this.router.navigate(['/categoriacerveza']);  // Redirige a la página de cervezas
+    } else if (category === 'Vinos') {
+      this.router.navigate(['/vinos']);     // Redirige a la página de vinos
+    } else if (category === 'Ron') {
+      this.router.navigate(['/ron']);       // Redirige a la página de ron
+    } else if (category === 'Whisky') {
+      this.router.navigate(['/whisky']);    // Redirige a la página de whisky
+    }
   }
   startCountdown() {
     const interval = setInterval(() => {
@@ -53,8 +68,9 @@ export class HomePage {
   openSecondaryMenu() {
     this.menuController.open('secondary-menu');
   }
-  logout(){
-    this.router.navigate(['/login']);
+  logout() {
+    this.sessionManager.performLogout();  // Limpia la sesión
+    this.router.navigate(['/login']);     // Redirige al login
   }
   
 
