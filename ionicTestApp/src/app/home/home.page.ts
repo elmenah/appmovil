@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SessionManager } from 'src/managers/SessionManager'; // Importa desde la ruta correcta
-
+import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage {
+  email: string = '';  // Variable para almacenar el email ingresado
   searchQuery: string = '';
   categories: string[] = ['Cervezas', 'Vinos', 'Ron', 'Whisky'];
   isAuthenticated: boolean = false; // Variable para verificar autenticación
@@ -16,13 +17,31 @@ export class HomePage {
   endTime: number = Date.now() + 24 * 60 * 60 * 1000; // Tiempo final en 24 horas
 
 
-  featuredProducts = [
-    { name: 'Whiskys', img: 'assets/imgs/whiskys.png' },
-    { name: 'Vinos', img: 'assets/imgs/vinos.png' },
-    { name: 'Cervezas', img: 'assets/imgs/cervezas.png' }
+  
+
+  //Lista de productos con review
+  Productswithreview = [
+    {
+      name: 'Whisky Jack Daniels',
+      
+      rating: 4.5,
+      reviews: [
+        { user: 'Juan', comment: 'Excelente calidad', rating: 5 },
+        { user: 'Maria', comment: 'Muy bueno', rating: 4 }
+      ]
+    },
+    {
+      name: 'Ron Bacardi',
+      
+      rating: 4.0,
+      reviews: [
+        { user: 'Carlos', comment: 'Buen sabor', rating: 4 }
+      ]
+    }
   ];
 
-  constructor(private router: Router, private menuController: MenuController,private sessionManager: SessionManager) {}
+
+  constructor(private router: Router, private menuController: MenuController,private sessionManager: SessionManager,private toastController: ToastController) {}
 
   ngOnInit() {
     
@@ -68,11 +87,40 @@ export class HomePage {
   openSecondaryMenu() {
     this.menuController.open('secondary-menu');
   }
+
   logout() {
-    this.sessionManager.performLogout();  // Limpia la sesión
-    this.router.navigate(['/login']);     // Redirige al login
+    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+      this.sessionManager.performLogout();  // Clear session
+      this.router.navigate(['/login']);     // Redirect to login page
+    }
   }
-  
+   // Método para manejar la suscripción al boletín
+   subscribeToNewsletter() {
+    if (this.email && this.validateEmail(this.email)) {
+      // Aquí puedes implementar la lógica para enviar el correo al servidor o suscribir al usuario
+      console.log('Email suscrito:', this.email);
+      this.presentToast('¡Te has suscrito al boletín con éxito!');
+      this.email = '';  // Limpiar el input después de suscribirse
+    } else {
+      this.presentToast('Por favor, ingresa un email válido.');
+    }
+  }
+
+  // Validación básica de email
+  validateEmail(email: string): boolean {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
+  // Método para mostrar un mensaje de notificación
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,  // Duración del mensaje (2 segundos)
+      position: 'bottom'
+    });
+    toast.present();
+  }
 
   
 
