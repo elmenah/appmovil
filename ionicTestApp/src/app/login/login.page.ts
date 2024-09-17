@@ -18,17 +18,21 @@ export class LoginPage implements OnInit {
   }
 
   async onLoginButtonPressed() {
-    if(this.sessionManager.performLogin(this.user, this.password)) { //usa la clase session manager y le pasa por parametro user y password
-      await this.presentWelcomeAlert(this.user);
-      this.router.navigate(['/home'])
-    } else {
-      this.user=''
-      this.password=''
-      alert('Las credenciales ingresadas son inválidas.')
-    }
+    // Primero verifica si los campos están vacíos antes de intentar el login
     if (this.user === '' || this.password === '') {
       alert('Por favor completa todos los campos');
       return;
+    }
+  
+    // Si los campos están completos, intenta iniciar sesión
+    if (this.sessionManager.performLogin(this.user, this.password)) {
+      await this.presentWelcomeAlert(this.user);
+      this.router.navigate(['/home']);
+    } else {
+      // Si las credenciales son inválidas, reinicia los campos y muestra el mensaje
+      this.user = '';
+      this.password = '';
+      alert('Las credenciales ingresadas son inválidas.');
     }
   }
 
