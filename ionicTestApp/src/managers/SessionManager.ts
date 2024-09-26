@@ -29,6 +29,11 @@ export class SessionManager {
         }
     }
 
+    obteneruser(){
+        const username = this.temporaryUserName
+        return username
+    }
+
     // Lógica para cerrar sesión
     performLogout(): void {
         this.setSession(false); // Establece que el usuario no está logueado

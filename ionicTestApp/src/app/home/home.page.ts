@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { SessionManager } from 'src/managers/SessionManager'; // Importa desde la ruta correcta
+import { SessionManager } from 'src/managers/SessionManager'; // Importar el session manager desde la ruta correcta
 import { ToastController } from '@ionic/angular';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -15,7 +16,8 @@ export class HomePage {
   isAuthenticated: boolean = false; // Variable para verificar autenticación
   countdown: string = '';
   endTime: number = Date.now() + 24 * 60 * 60 * 1000; // Tiempo final en 24 horas
-
+  usuario: string = this.sessionManager.obteneruser(); 
+  
 
   
 
@@ -46,9 +48,9 @@ export class HomePage {
   ngOnInit() {
     
     this.startCountdown();
-
+    
   }
-
+  
    // Función para redirigir a la categoría seleccionada
    goToCategory(category: string) {
     if (category === 'Cervezas') {
@@ -78,7 +80,7 @@ export class HomePage {
     }, 1000);
   }
   
-
+  
   ionViewWillLeave() {
     localStorage.setItem('endTime', this.endTime.toString());
   }
@@ -97,7 +99,7 @@ export class HomePage {
    // Método para manejar la suscripción al boletín
    subscribeToNewsletter() {
     if (this.email && this.validateEmail(this.email)) {
-      // Aquí puedes implementar la lógica para enviar el correo al servidor o suscribir al usuario
+      
       console.log('Email suscrito:', this.email);
       this.presentToast('¡Te has suscrito al boletín con éxito!');
       this.email = '';  // Limpiar el input después de suscribirse
