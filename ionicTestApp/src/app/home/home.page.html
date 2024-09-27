@@ -7,7 +7,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item button>Inicio</ion-item>
+      <ion-item button (click)="palhome()">Inicio</ion-item>
       <ion-item button>Sucursales</ion-item>
       <ion-item button>Preguntas Frecuentes</ion-item>
       <ion-item button>Contactanos</ion-item>
@@ -17,22 +17,8 @@
 
 <!-- Menú lateral derecho -->
 <ion-menu side="end" menuId="secondary-menu" contentId="main-content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Mi cuenta</ion-title>
-      <h5 style="text-align: center;">Hola {{usuario}}</h5>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <ion-list>
-      <ion-item button>Ver mis pedidos</ion-item>
-      <ion-item button (click)="logout()">Cerrar Sesion</ion-item>
-
-    </ion-list>
-  </ion-content>
+  
 </ion-menu>
-
-
 
 <!-- Contenido principal -->
 <ion-header>
@@ -45,11 +31,9 @@
     <ion-buttons slot="end">
       <!-- Botón del menú lateral derecho con icono de avatar -->
       <ion-button (click)="openSecondaryMenu()">
-        <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1"
-          style="margin-top: -10px;" />
+        <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1" style="margin-top: -10px;" />
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 
@@ -69,14 +53,13 @@
           <ion-label>{{ category }}</ion-label>
         </ion-chip>
       </ion-col>
-    </ion-row>                                          
+    </ion-row>
 
     <!-- Promoción del día -->
     <ion-row>
       <ion-col size="12">
         <ion-card class="cardpromociondeldia">
-          
-          <ion-card-content >
+          <ion-card-content>
             <h2>Promoción del día</h2>
             <img src="assets/img/cristal.jpg" alt="Promoción Royal Guard">
             <h2>50-40% OFF</h2>
@@ -89,45 +72,46 @@
     </ion-row>
 
     <!-- Oferta del día con cuenta regresiva -->
-<ion-row>
-  <ion-col size="12">
-    <ion-card class="offer-card">
-      <ion-card-content>
-        <div class="image-container">
-          <img src="assets/img/whisky.jpg" alt="Promoción Royal Guard" class="offer-image">
-          <div class="overlay">
-            <h3>Oferta del día</h3>
-            <p>{{ countdown }}</p>
-          </div>
-        </div>
-        <ion-button fill="outline">Ver Oferta</ion-button>
-      </ion-card-content>
-    </ion-card>
-  </ion-col>
-</ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card class="offer-card">
+          <ion-card-content>
+            <div class="image-container">
+              <img src="assets/img/whisky.jpg" alt="Promoción Royal Guard" class="offer-image">
+              <div class="overlay">
+                <h3>Oferta del día</h3>
+                <p>{{ countdown }}</p>
+              </div>
+            </div>
+            <ion-button fill="outline">Ver Oferta</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
-<h5>Opiniones</h5>
-<ion-row>
-  <ion-col size="6" *ngFor="let product of Productswithreview">
-    <ion-card>
-      
-      <ion-card-content>
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.reviews.length }} opiniones</p> <!-- Cantidad de reviews -->
-        <p>Calificación: {{ product.rating }} / 5</p>
-        <!-- Muestra la primera review -->
-        <p><strong>{{ product.reviews[0].user }}:</strong> {{ product.reviews[0].comment }}</p>
-      </ion-card-content>
-    </ion-card>
-  </ion-col>
-</ion-row>
+    <h5>Opiniones</h5>
+    <ion-row>
+      <ion-col size="6" *ngFor="let product of Productswithreview">
+        <ion-card>
+          <ion-card-content>
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.reviews.length }} opiniones</p> <!-- Cantidad de reviews -->
+            <p>Calificación: {{ product.rating }} / 5</p>
+            <!-- Muestra la primera review -->
+            <p><strong>{{ product.reviews[0].user }}:</strong> {{ product.reviews[0].comment }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
 
-<ion-row>
-  <ion-col size="12">
-    <ion-item>
-      <ion-label position="floating">Suscríbete a nuestro boletín</ion-label><br>
-      <ion-input type="email" [(ngModel)]="email" placeholder="Escribe tu correo aquí"></ion-input>
-    </ion-item>
-    <ion-button expand="full" (click)="subscribeToNewsletter()">Suscribirse</ion-button>
-  </ion-col>
-</ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-label position="floating">Suscríbete a nuestro boletín</ion-label><br>
+          <ion-input type="email" [(ngModel)]="email" placeholder="Escribe tu correo aquí"></ion-input>
+        </ion-item>
+        <ion-button expand="full" (click)="subscribeToNewsletter()">Suscribirse</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

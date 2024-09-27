@@ -16,5 +16,9 @@ defineCustomElements(window);
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],
+  
 })
-export class AppModule {}
+export class AppModule {
+
+  
+}

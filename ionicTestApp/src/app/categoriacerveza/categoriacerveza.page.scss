@@ -1,10 +1,4 @@
-ion-content {
-    
-    --background: white; /* Color de fondo personalizado */
-  }
-
 $text-color-dark: #000;
-
 $background-light: #f8f8f8;
 $avatar-size: 40px;
 $border-radius: 8px;
@@ -23,13 +17,11 @@ ion-content {
 }
 
 ion-title {
-    color:rgb(2, 60, 167);
+  color: rgb(2, 60, 167);
   font-weight: bold;
   text-align: center;
 }
-.textcenter{    
-    text-align: center;
-    font-size: 25px;
-    
+.textcenter {
+  text-align: center;
+  font-size: 25px;
 }
-

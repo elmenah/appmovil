@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SessionManager {
 
-    private readonly temporaryUserName: string = 'user';
+    private readonly temporaryUserName: string = 'Nicolas';
     private readonly temporaryPass: string = 'pass';
 
     // Guarda el estado del login en localStorage

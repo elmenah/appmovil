@@ -1,59 +1,51 @@
-
-  <!-- Menú lateral izquierdo -->
-  <ion-menu side="start" menuId="main-menu" contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Menú Principal</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item button>Inicio</ion-item>
-        <ion-item button>Sucursales</ion-item>
-        <ion-item button>Preguntas Frecuentes</ion-item>
-        <ion-item button>Contactanos</ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-
-  <!-- Menú lateral derecho -->
-  <ion-menu side="end" menuId="secondary-menu" contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Mi cuenta</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item button>Ver mis pedidos</ion-item>
-        <ion-item button (click)="logout()">Cerrar Sesion</ion-item>
-
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-
-
-
-  <!-- Contenido principal -->
+<!-- Menú lateral izquierdo -->
+<ion-menu side="start" menuId="main-menu" contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-buttons slot="start">
-        <!-- Botón del menú lateral izquierdo -->
-        <ion-menu-button menu="main-menu"></ion-menu-button>
-      </ion-buttons>
-      <ion-title>LA TERRAZA</ion-title>
-      <ion-buttons slot="end">
-        <!-- Botón del menú lateral derecho con icono de avatar -->
-        <ion-button (click)="openSecondaryMenu()">
-          <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1"
-            style="margin-top: -10px;" />
-        </ion-button>
-      </ion-buttons>
-
+      <ion-title>Menú Principal</ion-title>
     </ion-toolbar>
   </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button (click)="palhome()">Inicio</ion-item>
+      <ion-item button>Sucursales</ion-item>
+      <ion-item button>Preguntas Frecuentes</ion-item>
+      <ion-item button>Contactanos</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
+<!-- Menú lateral derecho -->
+<ion-menu side="end" menuId="secondary-menu" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Mi cuenta</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item button>Ver mis pedidos</ion-item>
+      <ion-item button (click)="logout()">Cerrar Sesión</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
 
+<!-- Contenido principal -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- Botón del menú lateral izquierdo -->
+      <ion-menu-button menu="main-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>LA TERRAZA</ion-title>
+    <ion-buttons slot="end">
+      <!-- Botón del menú lateral derecho con icono de avatar -->
+      <ion-button (click)="openSecondaryMenu()">
+        <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1" style="margin-top: -10px;" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content id="main-content"> <!-- Vinculado al contentId del menú -->
   <h5>Volver al home</h5>
@@ -113,5 +105,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
 </ion-content>

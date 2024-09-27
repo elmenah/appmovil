@@ -47,9 +47,9 @@ export class HomePage {
 
   ngOnInit() {
     
-    this.startCountdown();
-    
   }
+  
+  
   
    // Función para redirigir a la categoría seleccionada
    goToCategory(category: string) {
@@ -62,6 +62,7 @@ export class HomePage {
     } else if (category === 'Whisky') {
       this.router.navigate(['/whisky']);    // Redirige a la página de whisky
     }
+    this.menuController.close(); // Cierra el menú después de navegar
   }
   startCountdown() {
     const interval = setInterval(() => {
@@ -123,7 +124,9 @@ export class HomePage {
     });
     toast.present();
   }
-
-  
+  palhome(){
+    this.router.navigate(['/home']);
+    this.menuController.close();
+  }
 
 }
