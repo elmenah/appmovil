@@ -12,20 +12,14 @@ export class CervezaPage implements OnInit {
   constructor(private router: Router,private menuController: MenuController) { }
 
   producto1 = {
-    name: 'Cerveza',
+    name: 'Cervezax',
     description: 'Descripción del producto 1',
     price: 20.99,
     imageUrl: 'assets/img/producto1.jpg',
     category: 'Categoría 1'
   };
 
-  producto2 = {
-    name: 'Producto 2',
-    description: 'Descripción del producto 2',
-    price: 30.99,
-    imageUrl: 'assets/img/producto2.jpg',
-    category: 'Categoría 2'
-  };
+ 
   ngOnInit() {
   }
   openSecondaryMenu() {
