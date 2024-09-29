@@ -55,11 +55,6 @@
 
 
 
-<ion-content id="main-content"> <!-- Vinculado al contentId del menú -->
-  <h5><img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1"
-    style="margin-top: -10px;" /> Volver al home</h5>
-    <app-product-page [product]="producto1"></app-product-page>
-  
-  
-
-</ion-content>
+  <ion-content>
+    <app-product-page *ngIf="product" [product]="product"></app-product-page>
+  </ion-content>

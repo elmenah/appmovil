@@ -26,17 +26,17 @@ export class LoginPage implements OnInit {
       return;
     }
   
-    // Si los campos están completos, intenta iniciar sesión
-    if (this.sessionManager.performLogin(this.user, this.password)) {
-      await this.presentWelcomeAlert(this.user);
-      this.router.navigate(['/home']);
-    } else {
-      // Si las credenciales son inválidas, reinicia los campos y muestra el mensaje
-      this.user = '';
-      this.password = '';
-      alert('Las credenciales ingresadas son inválidas.');
-    }
+    // Si las credenciales son válidas, navega al home
+  const loginSuccess = await this.sessionManager.performLogin(this.user, this.password);
+  if (loginSuccess) {
+    await this.presentWelcomeAlert(this.user);
+    this.router.navigate(['/home']);
+  } else {
+    this.user = '';
+    this.password = '';
+    alert('Las credenciales ingresadas son inválidas.');
   }
+}
 
   async presentWelcomeAlert(username: string) {
     const alert = await this.alertController.create({

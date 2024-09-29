@@ -27,6 +27,7 @@
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/status-bar": "6.0.1",
     "@ionic/angular": "^8.0.0",
+    "@ionic/storage-angular": "^4.0.0",
     "@lottiefiles/lottie-player": "^2.0.4",
     "@teamhive/lottie-player": "^1.0.0",
     "ionicons": "^7.0.0",

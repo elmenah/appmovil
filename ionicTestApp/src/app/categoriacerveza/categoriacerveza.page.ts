@@ -14,6 +14,13 @@ export class CategoriacervezaPage implements OnInit {
   ngOnInit() {
    
   }
+
+  cervezas = [                        
+    { name: 'Pack Cristal', description: 'Descripción de Cerveza 1', price: 10, imageUrl: 'assets/img/cerveza1.jpg', category: 'Lager' },
+    { name: 'Pack Corona', description: 'Descripción de Cerveza 2', price: 12, imageUrl: 'assets/img/cerveza2.jpg', category: 'Ale' },
+    { name: 'Pack Royal Guard', description: 'Descripción de Cerveza 2', price: 12, imageUrl: 'assets/img/cerveza2.jpg', category: 'Ale' },
+    
+  ];
   ionViewWillEnter() {
     this.menuController.enable(true, 'main-menu'); // Habilita el menú principal
     this.menuController.enable(true, 'secondary-menu'); // Habilita el menú secundario
@@ -26,6 +33,9 @@ export class CategoriacervezaPage implements OnInit {
       this.sessionManager.performLogout();  // Clear session
            // Redirect to login page
     }
+  }
+  verProducto(cerveza: any) {
+    this.router.navigate(['/cerveza'], { state: { product: cerveza } });
   }
 
   palhome(){

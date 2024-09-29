@@ -53,54 +53,19 @@
   <div>
     <h5 style="font-size: 13px;">505 ITEMS</h5>
   </div>
-  <!-- Productos organizados en 2 filas y 2 columnas -->
+  
   <ion-grid>
-    <!-- Primera fila -->
     <ion-row>
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/img/cerveza1.jpg" alt="Cerveza 1">
-          <ion-card-content>
-            <h3>Cerveza 1</h3>
-            <p>Descripción del producto.</p>
-            <ion-button fill="outline">Comprar</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/img/cerveza2.jpg" alt="Cerveza 2">
-          <ion-card-content>
-            <h3>Cerveza 2</h3>
-            <p>Descripción del producto.</p>
-            <ion-button fill="outline">Comprar</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-    <!-- Segunda fila -->
-    <ion-row>
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/img/cerveza3.jpg" alt="Cerveza 3">
-          <ion-card-content>
-            <h3>Cerveza 3</h3>
-            <p>Descripción del producto.</p>
-            <ion-button fill="outline">Comprar</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <ion-col size="6">
-        <ion-card>
-          <img src="assets/img/cerveza4.jpg" alt="Cerveza 4">
-          <ion-card-content>
-            <h3>Cerveza 4</h3>
-            <p>Descripción del producto.</p>
-            <ion-button fill="outline">Comprar</ion-button>
-          </ion-card-content>
+      <ion-col size="6" *ngFor="let cerveza of cervezas">
+        <ion-card class="product-card">
+          <ion-img [src]="cerveza.imageUrl"></ion-img>
+          <ion-card-header>
+            <div>
+              <ion-card-title class="titlecerveza">{{ cerveza.name }}</ion-card-title>
+              <h5 style="padding-top: 15px;">Precio: {{ cerveza.price }}</h5>
+            </div>
+            <ion-button expand="full" (click)="verProducto(cerveza)">Ver Producto</ion-button>
+          </ion-card-header>
         </ion-card>
       </ion-col>
     </ion-row>

@@ -8,20 +8,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./cerveza.page.scss'],
 })
 export class CervezaPage implements OnInit {
+  product: any;
 
-  constructor(private router: Router,private menuController: MenuController) { }
+  constructor(private router: Router,private menuController: MenuController) { 
+    const navigation = this.router.getCurrentNavigation();
+    this.product = navigation?.extras?.state?.['product'];
+  }
 
-  producto1 = {
-    name: 'Cervezax',
-    description: 'Descripción del producto 1',
-    price: 20.99,
-    imageUrl: 'assets/img/producto1.jpg',
-    category: 'Categoría 1'
-  };
+  
 
  
   ngOnInit() {
   }
+  
   openSecondaryMenu() {
     this.menuController.open('secondary-menu');
   }

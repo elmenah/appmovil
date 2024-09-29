@@ -25,3 +25,17 @@ ion-title {
   text-align: center;
   font-size: 25px;
 }
+ion-card{
+  padding-bottom: 40%;
+  max-height: 100%;
+}
+.product-card {
+  height: 200px; /* Establece la altura deseada */
+  display: flex;
+  flex-direction: column; /* Asegura que el contenido se apile verticalmente */
+  justify-content: space-between; /* Distribuye el espacio entre los elementos */
+}
+.titlecerveza{
+  
+  font-size:medium ;
+}
