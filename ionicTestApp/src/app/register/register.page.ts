@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { SessionManager } from 'src/managers/SessionManager';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,11 @@ export class RegisterPage {
   email: string = '';
   password: string = '';
 
-  constructor(private router: Router, private alertController: AlertController) {}
+  constructor(
+    private router: Router,
+    private alertController: AlertController,
+    private sessionManager: SessionManager // Inyecta SessionManager
+  ) {}
 
   async onRegisterButtonPressed() {
     if (!this.username || !this.email || !this.password) {
@@ -31,17 +36,15 @@ export class RegisterPage {
       return;
     }
 
-    // Guardar los datos del usuario en Local Storage
-    const userData = {
-      username: this.username,
-      email: this.email,
-      password: this.password
-    };
-
-    localStorage.setItem('user', JSON.stringify(userData));
-
-    await this.presentAlert();
-    this.router.navigate(['/home']);
+    // Se crea una constante usando el metodo perfomRegister
+    const isRegistered = await this.sessionManager.performRegister(this.email, this.password);
+    
+    if (isRegistered) {
+      await this.presentAlert();
+      this.router.navigate(['/home']); // Redirige al usuario
+    } else {
+      alert('Error en el registro. Por favor intenta de nuevo.');
+    }
   }
 
   async presentAlert() {

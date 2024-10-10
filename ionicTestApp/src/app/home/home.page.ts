@@ -16,7 +16,8 @@ export class HomePage {
   isAuthenticated: boolean = false; // Variable para verificar autenticación
   countdown: string = '';
   endTime: number = Date.now() + 24 * 60 * 60 * 1000; // Tiempo final en 24 horas
-  usuario: string = this.sessionManager.obteneruser(); 
+  
+  
   
 
   
@@ -45,7 +46,7 @@ export class HomePage {
 
   constructor(private router: Router, private menuController: MenuController,private sessionManager: SessionManager,private toastController: ToastController) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     
   }
   

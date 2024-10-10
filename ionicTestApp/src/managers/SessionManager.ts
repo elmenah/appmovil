@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+
+
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+
 @Injectable({
   providedIn: 'root',
 })
 export class SessionManager {
-  private readonly temporaryUserName: string = 'Nicolas';
-  private readonly temporaryPass: string = 'pass';
-
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage, private afAuth: AngularFireAuth) {
     this.init();
   }
 
@@ -16,8 +17,8 @@ export class SessionManager {
     await this.storage.create();
   }
 
-   // Guarda el estado del login en Ionic Storage
-   async setSession(isLoggedIn: boolean): Promise<void> {
+  // Guarda el estado del login en Ionic Storage
+  async setSession(isLoggedIn: boolean): Promise<void> {
     await this.storage.set('isLoggedIn', isLoggedIn);
   }
 
@@ -27,25 +28,40 @@ export class SessionManager {
     return session ? session : false;
   }
 
-  
-
-   // Lógica para iniciar sesión
-   async performLogin(user: string, password: string): Promise<boolean> {
-    if (user === this.temporaryUserName && password === this.temporaryPass) {
+  // Lógica para iniciar sesión con Firebase
+  async performLogin(email: string, password: string): Promise<boolean> {
+    try {
+      await this.afAuth.signInWithEmailAndPassword(email, password);
       await this.setSession(true); // Guarda que el usuario está logueado
       return true;
-    } else {
+    } catch (error) {
+      console.error('Error en el inicio de sesión:', error);
       return false;
     }
   }
 
-  obteneruser() {
-    const username = this.temporaryUserName;
-    return username;
+  // Registro de usuario
+  async performRegister(email: string, password: string): Promise<boolean> {
+    try {
+      await this.afAuth.createUserWithEmailAndPassword(email, password);
+      await this.setSession(true); // Guarda que el usuario está logueado
+      return true;
+    } catch (error) {
+      console.error('Error en el registro:', error);
+      return false;
+    }
   }
+
+  // Obtener el nombre de usuario
+async obtenerUser(): Promise<string | null> {
+  const user = await this.afAuth.currentUser; // Usa await para obtener el usuario actual
+  return user ? user.displayName : null; // Devuelve el nombre de usuario o null si no está autenticado
+}
+
 
   // Lógica para cerrar sesión
   async performLogout(): Promise<void> {
+    await this.afAuth.signOut(); // Cierra sesión en Firebase
     await this.setSession(false); // Establece que el usuario no está logueado
   }
 }

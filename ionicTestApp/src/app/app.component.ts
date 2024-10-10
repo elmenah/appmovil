@@ -9,12 +9,18 @@ import { SessionManager } from 'src/managers/SessionManager';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  usuario: string = this.sessionManager.obteneruser();
+  usuario: string | null = null;
+  
   constructor( private menuController: MenuController,private router: Router,
     private sessionManager: SessionManager) {}
 
-  openSecondaryMenu() {
+
+  async ngOnInit() {
+    this.usuario = await this.sessionManager.obtenerUser(); 
+    }
+  async openSecondaryMenu() {
     this.menuController.open('secondary-menu');
+    
   }
 
   logout() {
