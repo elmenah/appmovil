@@ -3,7 +3,9 @@ import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SessionManager } from 'src/managers/SessionManager'; // Importar el session manager desde la ruta correcta
 import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -44,10 +46,10 @@ export class HomePage {
   ];
 
 
-  constructor(private router: Router, private menuController: MenuController,private sessionManager: SessionManager,private toastController: ToastController) {}
+  constructor(private router: Router,private storage: Storage ,private menuController: MenuController,private sessionManager: SessionManager,private toastController: ToastController,private alertController: AlertController) {}
 
   async ngOnInit() {
-    
+    await this.presentWelcomeAlert(await this.storage.get('userName'));
   }
   
   
@@ -82,7 +84,14 @@ export class HomePage {
     }, 1000);
   }
   
-  
+  async presentWelcomeAlert(username: string) {
+    const alert = await this.alertController.create({
+      header: 'Bienvenido',
+      message: `Bienvenido a la terraza, ${username}`,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
   ionViewWillLeave() {
     localStorage.setItem('endTime', this.endTime.toString());
   }

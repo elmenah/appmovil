@@ -29,6 +29,7 @@ export class LoginPage implements OnInit {
     // Si las credenciales son válidas, navega al home
   const loginSuccess = await this.sessionManager.performLogin(this.user, this.password);
   if (loginSuccess) {
+    await this.sessionManager.setSession(true);
     await this.presentWelcomeAlert(this.user);
     this.router.navigate(['/home']);
   } else {
@@ -36,6 +37,20 @@ export class LoginPage implements OnInit {
     this.password = '';
     alert('Las credenciales ingresadas son inválidas.');
   }
+}
+
+async onLoginButtonGoogle(){
+
+const loginSucces = await this.sessionManager.loginWithGoogle();
+if (loginSucces)
+{
+
+this.router.navigate(['/splash']);
+} else{
+
+  alert('Las credenciales ingresadas son inválidas.');
+}
+
 }
 
   async presentWelcomeAlert(username: string) {

@@ -41,7 +41,7 @@ export class RegisterPage {
     
     if (isRegistered) {
       await this.presentAlert();
-      this.router.navigate(['/home']); // Redirige al usuario
+      this.router.navigate(['/login']); // Redirige al usuario
     } else {
       alert('Error en el registro. Por favor intenta de nuevo.');
     }

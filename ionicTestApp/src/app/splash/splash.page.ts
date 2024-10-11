@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionManager } from 'src/managers/SessionManager'; // Importa desde la ruta correcta
-
+import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-splash',
   templateUrl: './splash.page.html',
@@ -9,7 +10,7 @@ import { SessionManager } from 'src/managers/SessionManager'; // Importa desde l
 })
 export class SplashPage implements OnInit {
 
-  constructor(private router: Router, private sessionManager: SessionManager) { }
+  constructor(private router: Router, private sessionManager: SessionManager,private alertController: AlertController,private storage: Storage) { }
 
   async ngOnInit() {
     setTimeout(async () => {
@@ -21,10 +22,20 @@ export class SplashPage implements OnInit {
         const isLoggedIn = await this.sessionManager.isLoggedIn();
         if (isLoggedIn) {
           this.router.navigate(['/home']); // Si está logueado, redirige al Home
+          await this.presentWelcomeAlert(await this.storage.get('userName'));
         } else {
           this.router.navigate(['/login']); // Si no está logueado, redirige al Login
         }
       }
     }, 2000); // Espera de 2 segundos antes de redirigir
   }
+  async presentWelcomeAlert(username: string) {
+    const alert = await this.alertController.create({
+      header: 'Bienvenido',
+      message: `Bienvenido a la terraza, ${username}`,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+  
 }
