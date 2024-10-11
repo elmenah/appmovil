@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SessionManager } from 'src/managers/SessionManager';
 import { AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -10,7 +11,7 @@ import { MenuController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private router: Router,private menuController: MenuController,private alertController: AlertController, private sessionManager: SessionManager) { }
+  constructor(private router: Router,private menuController: MenuController,private storage: Storage,private alertController: AlertController, private sessionManager: SessionManager) { }
 
     user: string = '';
     password: string = '';
@@ -31,7 +32,7 @@ export class LoginPage implements OnInit {
   if (loginSuccess) {
     await this.sessionManager.setSession(true);
     
-    this.router.navigate(['/splash']);
+    this.router.navigate(['/sucursales']);
   } else {
     this.user = '';
     this.password = '';
@@ -44,7 +45,7 @@ async onLoginButtonGoogle(){
 const loginSucces = await this.sessionManager.loginWithGoogle();
 if (loginSucces)
 {
-
+const instructivoSeen = await this.storage.get('instructivoSeen');
 this.router.navigate(['/splash']);
 } else{
 

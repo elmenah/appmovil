@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage-angular';
 @Component({
   selector: 'app-instructivo1',
   templateUrl: './instructivo1.page.html',
@@ -7,17 +8,19 @@ import { Router } from '@angular/router';
 })
 export class Instructivo1Page implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private storage: Storage) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    
     // Marcar el instructivo como visto cuando la página se cargue
-    localStorage.setItem('instructivoSeen', 'true');
+    await this.storage.set('instructivoSeen', true);
   }
+
   next1(){
     this.router.navigate(['/instructivo2']);
   }
   skip() {
-    localStorage.setItem('instructivoSeen', 'true'); // Almacena que el usuario ha hecho "Skip"
+     
     this.router.navigate(['/login']); // Redirige al Home después de saltarlo
   }
 }
