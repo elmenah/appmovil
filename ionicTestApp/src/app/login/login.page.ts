@@ -30,8 +30,8 @@ export class LoginPage implements OnInit {
   const loginSuccess = await this.sessionManager.performLogin(this.user, this.password);
   if (loginSuccess) {
     await this.sessionManager.setSession(true);
-    await this.presentWelcomeAlert(this.user);
-    this.router.navigate(['/home']);
+    
+    this.router.navigate(['/splash']);
   } else {
     this.user = '';
     this.password = '';
@@ -53,14 +53,7 @@ this.router.navigate(['/splash']);
 
 }
 
-  async presentWelcomeAlert(username: string) {
-    const alert = await this.alertController.create({
-      header: 'Bienvenido',
-      message: `Bienvenido a la terraza, ${username}`,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
+  
 
   onRegisterButtonPressed() {
     this.router.navigate(['/register'])

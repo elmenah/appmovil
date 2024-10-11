@@ -1,6 +1,3 @@
-
-
-
 <!-- Contenido principal -->
 <ion-header>
   <ion-toolbar>
@@ -35,64 +32,12 @@
         </ion-chip>
       </ion-col>
     </ion-row>
-
-    <!-- Promoción del día -->
-    <ion-row>
-      <ion-col size="12">
-        <ion-card class="cardpromociondeldia">
-          <ion-card-content>
-            <h2>Promoción del día</h2>
-            <img src="assets/img/cristal.jpg" alt="Promoción Royal Guard">
-            <h2>50-40% OFF</h2>
-            <p>Pack Cristal</p>
-            <p>Revisa en tu sucursal más cercana</p>
-            <ion-button fill="outline">Comprar Ahora</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-    <!-- Oferta del día con cuenta regresiva -->
-    <ion-row>
-      <ion-col size="12">
-        <ion-card class="offer-card">
-          <ion-card-content>
-            <div class="image-container">
-              <img src="assets/img/whisky.jpg" alt="Promoción Royal Guard" class="offer-image">
-              <div class="overlay">
-                <h3>Oferta del día</h3>
-                <p>{{ countdown }}</p>
-              </div>
-            </div>
-            <ion-button fill="outline">Ver Oferta</ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-    <h5>Opiniones</h5>
-    <ion-row>
-      <ion-col size="6" *ngFor="let product of Productswithreview">
-        <ion-card>
-          <ion-card-content>
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.reviews.length }} opiniones</p> <!-- Cantidad de reviews -->
-            <p>Calificación: {{ product.rating }} / 5</p>
-            <!-- Muestra la primera review -->
-            <p><strong>{{ product.reviews[0].user }}:</strong> {{ product.reviews[0].comment }}</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="12">
-        <ion-item>
-          <ion-label position="floating">Suscríbete a nuestro boletín</ion-label><br>
-          <ion-input type="email" [(ngModel)]="email" placeholder="Escribe tu correo aquí"></ion-input>
-        </ion-item>
-        <ion-button expand="full" (click)="subscribeToNewsletter()">Suscribirse</ion-button>
-      </ion-col>
-    </ion-row>
   </ion-grid>
+  <app-inicio></app-inicio> //Utilizo el componente
+    
+    
+
+    
+
+    
 </ion-content>

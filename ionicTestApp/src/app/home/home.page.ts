@@ -12,7 +12,7 @@ import { Storage } from '@ionic/storage-angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage {
-  email: string = '';  // Variable para almacenar el email ingresado
+  
   searchQuery: string = '';
   categories: string[] = ['Cervezas', 'Vinos', 'Ron', 'Whisky'];
   isAuthenticated: boolean = false; // Variable para verificar autenticación
@@ -20,36 +20,12 @@ export class HomePage {
   endTime: number = Date.now() + 24 * 60 * 60 * 1000; // Tiempo final en 24 horas
   
   
-  
-
-  
-
-  //Lista de productos con review
-  Productswithreview = [
-    {
-      name: 'Whisky Jack Daniels',
-      
-      rating: 4.5,
-      reviews: [
-        { user: 'Juan', comment: 'Excelente calidad', rating: 5 },
-        { user: 'Maria', comment: 'Muy bueno', rating: 4 }
-      ]
-    },
-    {
-      name: 'Ron Bacardi',
-      
-      rating: 4.0,
-      reviews: [
-        { user: 'Carlos', comment: 'Buen sabor', rating: 4 }
-      ]
-    }
-  ];
 
 
   constructor(private router: Router,private storage: Storage ,private menuController: MenuController,private sessionManager: SessionManager,private toastController: ToastController,private alertController: AlertController) {}
 
   async ngOnInit() {
-    await this.presentWelcomeAlert(await this.storage.get('userName'));
+    
   }
   
   
@@ -107,17 +83,7 @@ export class HomePage {
       this.router.navigate(['/login']);     // Redirect to login page
     }
   }
-   // Método para manejar la suscripción al boletín
-   subscribeToNewsletter() {
-    if (this.email && this.validateEmail(this.email)) {
-      
-      console.log('Email suscrito:', this.email);
-      this.presentToast('¡Te has suscrito al boletín con éxito!');
-      this.email = '';  // Limpiar el input después de suscribirse
-    } else {
-      this.presentToast('Por favor, ingresa un email válido.');
-    }
-  }
+   
 
   // Validación básica de email
   validateEmail(email: string): boolean {

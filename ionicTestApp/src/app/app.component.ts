@@ -22,7 +22,10 @@ export class AppComponent {
     this.menuController.open('secondary-menu');
     
   }
+  cerrarmenu(){
 
+    this.menuController.close();
+  }
   logout() {
     if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
       this.sessionManager.performLogout(); // Limpiar la sesión

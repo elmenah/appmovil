@@ -21,21 +21,14 @@ export class SplashPage implements OnInit {
         // Usa await para esperar la resolución de isLoggedIn()
         const isLoggedIn = await this.sessionManager.isLoggedIn();
         if (isLoggedIn) {
-          this.router.navigate(['/home']); // Si está logueado, redirige al Home
-          await this.presentWelcomeAlert(await this.storage.get('userName'));
+          this.router.navigate(['/sucursales']); // Si se logea elige la sucursal
+          
         } else {
           this.router.navigate(['/login']); // Si no está logueado, redirige al Login
         }
       }
     }, 2000); // Espera de 2 segundos antes de redirigir
   }
-  async presentWelcomeAlert(username: string) {
-    const alert = await this.alertController.create({
-      header: 'Bienvenido',
-      message: `Bienvenido a la terraza, ${username}`,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
+  
   
 }

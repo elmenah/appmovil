@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ProductPageComponent } from 'src/app/product-page/product-page.component';  // Importa el componente
 
 @NgModule({
-  declarations: [ProductPageComponent],  
+  declarations: [ProductPageComponent],//Reutilizo product page en cerveza  
   imports: [CommonModule, IonicModule],  
   exports: [ProductPageComponent]  
 })
