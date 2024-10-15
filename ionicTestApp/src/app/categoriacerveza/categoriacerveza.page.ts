@@ -16,7 +16,7 @@ export class CategoriacervezaPage implements OnInit {
   }
 
   cervezas = [                        
-    { name: 'Pack Cristal', description: 'Descripción de Cerveza 1', price: 10, imageUrl: 'assets/img/cerveza1.jpg', category: 'Lager' },
+    { name: 'Pack Escudo 6 UN.', description: 'Descripción de Cerveza 1', price: 10, imageUrl: 'assets/img/packescudo.jpg', category: 'Lager' },
     { name: 'Pack Corona', description: 'Descripción de Cerveza 2', price: 12, imageUrl: 'assets/img/cerveza2.jpg', category: 'Ale' },
     { name: 'Pack Royal Guard', description: 'Descripción de Cerveza 2', price: 12, imageUrl: 'assets/img/cerveza2.jpg', category: 'Ale' },
     

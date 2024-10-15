@@ -13,30 +13,40 @@ export class RegisterPage {
   username: string = '';
   email: string = '';
   password: string = '';
+  termsAccepted: boolean = false;  // Se usa para almacenar si los TYC están aceptados
 
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private sessionManager: SessionManager // Inyecta SessionManager
+    private sessionManager: SessionManager 
   ) {}
 
   async onRegisterButtonPressed() {
+    // Primero verificamos si los términos y condiciones han sido aceptados
+    if (!this.termsAccepted) {
+      alert('Debe aceptar los términos y condiciones');
+      return;
+    }
+
+    // Luego verificamos si todos los campos están completos
     if (!this.username || !this.email || !this.password) {
       alert('Por favor completa todos los campos');
       return;
     }
 
+    // Verificamos que el correo sea válido
     if (!this.validateEmail(this.email)) {
       alert('Por favor introduce un correo electrónico válido');
       return;
     }
 
+    // Verificamos que la contraseña sea válida
     if (!this.validatePassword(this.password)) {
       alert('La contraseña debe tener al menos 6 caracteres y debe incluir letras mayúsculas y minúsculas.');
       return;
     }
 
-    // Se crea una constante usando el metodo perfomRegister
+    // Se crea una constante usando el metodo performRegister
     const isRegistered = await this.sessionManager.performRegister(this.email, this.password);
     
     if (isRegistered) {
@@ -50,7 +60,7 @@ export class RegisterPage {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Registro exitoso',
-      message: 'Bienvenido a terraza, su cuenta se registró correctamente',
+      message: 'Su cuenta se registró correctamente',
       buttons: ['OK']
     });
 

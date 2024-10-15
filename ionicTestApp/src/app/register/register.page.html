@@ -21,22 +21,19 @@
         </ion-item>
         <ion-item class="inputs">
           <img src="assets/img/contrasena.png" alt="Icono clave" width="29px" style="padding-right: 10px;">
-          <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
+          <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password">
+            <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+          </ion-input>
         </ion-item>
         <ion-item class="inputs">
           <img src="assets/img/correo-electronico.png" alt="Icono correo" width="29px" style="padding-right: 10px;">
           <ion-input placeholder="Correo" type="email" [(ngModel)]="email"></ion-input>
         </ion-item>
+        
+        <ion-checkbox [(ngModel)]="termsAccepted" labelPlacement="end" style="color: aliceblue;">
+          Acepto los Términos y Condiciones
+        </ion-checkbox>
         <ion-button expand="block" (click)="onRegisterButtonPressed()">Registro</ion-button>
-
-        <ion-row>
-          <ion-col size="12" class="ion-text-center">
-            <ion-button fill="clear" class="btnlogingoogle">
-              <ion-icon name="logo-google" slot="start"></ion-icon>
-              Registrarme con Google
-            </ion-button>
-          </ion-col>
-        </ion-row>
 
         <div class="ion-text-center">
           <p style="color: white;">¿Ya tienes una cuenta?</p>
