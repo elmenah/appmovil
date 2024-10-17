@@ -102,7 +102,7 @@ export class LoginPage implements OnInit {
       await sendPasswordResetEmail(auth, email);//Metodo de firebase para recuperar la clave
       const alert = await this.alertController.create({
         header: 'Correo enviado',
-        message: 'Revisa tu bandeja de entrada para restablecer tu contraseña.',
+        message: 'Si el correo esta registrado en La Terraza, te enviamos un enlace para restablecer tu contraseña',
         buttons: ['OK']
       });
       await alert.present();

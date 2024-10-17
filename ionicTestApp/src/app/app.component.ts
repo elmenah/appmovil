@@ -34,4 +34,10 @@ export class AppComponent {
 
     }
   }
+
+  deleteUser(){
+    this.sessionManager.eliminarCuenta();
+    this.router.navigate(['/register'])
+  }
+  
 }

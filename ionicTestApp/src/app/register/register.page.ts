@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { SessionManager } from 'src/managers/SessionManager';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, setDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-register',
@@ -22,13 +24,13 @@ export class RegisterPage {
   ) {}
 
   async onRegisterButtonPressed() {
-    // Primero verificamos si los términos y condiciones han sido aceptados
+    // Verificamos si los términos y condiciones han sido aceptados
     if (!this.termsAccepted) {
       alert('Debe aceptar los términos y condiciones');
       return;
     }
 
-    // Luego verificamos si todos los campos están completos
+    // Verificamos si todos los campos están completos
     if (!this.username || !this.email || !this.password) {
       alert('Por favor completa todos los campos');
       return;
@@ -46,14 +48,38 @@ export class RegisterPage {
       return;
     }
 
-    // Se crea una constante usando el metodo performRegister
-    const isRegistered = await this.sessionManager.performRegister(this.email, this.password);
+    // Se crea una constante usando el método performRegister
+    const isRegistered = await this.performRegister(this.email, this.password, this.username);
     
     if (isRegistered) {
       await this.presentAlert();
       this.router.navigate(['/login']); // Redirige al usuario
     } else {
       alert('Error en el registro. Por favor intenta de nuevo.');
+    }
+  }
+
+  async performRegister(email: string, password: string, username: string): Promise<boolean> {
+    const auth = getAuth();
+    const db = getFirestore();
+    
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      
+      const user = userCredential.user;
+
+      // Guarda el nombre de usuario en Firestore
+      await setDoc(doc(db, 'usuarios', user.uid), {
+        
+        username: username,
+        email: email
+      });
+      console.log('Se creo y guardo exitosamente el usuario',username)
+      return true; // Registro exitoso
+      
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+      return false; // Registro fallido
     }
   }
 

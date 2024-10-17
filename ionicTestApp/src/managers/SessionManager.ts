@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-
-
+import { AlertController } from '@ionic/angular';
+import { getAuth, deleteUser } from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -10,7 +10,7 @@ import 'firebase/compat/auth';
 })
 export class SessionManager {
   public userName: string | null = null;
-  constructor(private storage: Storage, private afAuth: AngularFireAuth) {
+  constructor(private storage: Storage, private afAuth: AngularFireAuth,private alertController: AlertController) {
     this.init();
   }
 
@@ -87,4 +87,50 @@ export class SessionManager {
     await this.storage.remove('userName');
     
   }
+  async eliminarCuenta() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (user) {
+      const alert = await this.alertController.create({
+        header: 'Confirmar',
+        message: '¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+          },
+          {
+            text: 'Eliminar',
+            handler: async () => {
+              try {
+                await deleteUser(user);
+                console.log('Cuenta eliminada con éxito');
+                const alert = await this.alertController.create({
+                  
+                  message: 'Su cuenta se elimino correctamente',
+                  buttons: ['OK']
+                });
+                await alert.present();
+                // Aquí puedes redirigir al usuario o mostrar un mensaje
+              } catch (error) {
+                console.error('Error al eliminar la cuenta:', error);
+                // Manejar errores (como requerir reautenticación)
+                await this.alertController.create({
+                  header: 'Error',
+                  message: 'No se pudo eliminar la cuenta. Asegúrate de que estás autenticado correctamente.',
+                  buttons: ['OK']
+                }).then(alert => alert.present());
+              }
+            }
+          }
+        ]
+      });
+
+      await alert.present();
+    } else {
+      console.log('No hay usuario autenticado');
+    }
+  }
+
 }
