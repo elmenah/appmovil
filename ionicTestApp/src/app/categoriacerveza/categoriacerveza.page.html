@@ -48,7 +48,12 @@
 </ion-header>
 
 <ion-content id="main-content"> <!-- Vinculado al contentId del menú -->
-  <h5>Volver al home</h5>
+  <div style="display: flex; align-items: center;" (click)="palhome()">
+    <img width="48" height="48" src="https://img.icons8.com/material-two-tone/48/back--v1.png" alt="back--v1"/>
+    <h5 style="margin-top: 2; margin-left: 10px;">Volver al home</h5>
+</div>
+    
+  
   <h5 class="textcenter">Cervezas</h5>
   <div>
     
@@ -62,7 +67,8 @@
           <ion-card-header>
             <div>
               <ion-card-title class="titlecerveza">{{ cerveza.name }}</ion-card-title>
-              <h5 style="padding-top: 15px;">Precio: {{ cerveza.price }}</h5>
+              <h6>{{ cerveza.category }}</h6>
+              <h5 style="padding-top: 5px;">Precio: ${{ cerveza.price }}</h5>
             </div>
             <ion-button expand="shape" (click)="verProducto(cerveza)">Ver Producto</ion-button>
           </ion-card-header>

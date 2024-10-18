@@ -8,8 +8,13 @@
     <ion-title>LA TERRAZA</ion-title>
     <ion-buttons slot="end">
       <!-- Botón del menú lateral derecho con icono de avatar -->
+      <a><img width="30" height="25" src="https://img.icons8.com/material-two-tone/48/shopping-cart--v1.png"
+        alt="shopping-cart--v1" style="margin-top: -4px;" (click)="carrito()"/></a>
       <ion-button (click)="openSecondaryMenu()">
-        <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1" style="margin-top: -10px;" />
+
+        <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1"
+          style="margin-top: -5px;" />
+
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -20,7 +25,8 @@
     <!-- Barra de búsqueda -->
     <ion-row>
       <ion-col size="12">
-        <ion-searchbar [(ngModel)]="searchQuery" placeholder="Busca algún producto" class="barrabusqueda"></ion-searchbar>
+        <ion-searchbar [(ngModel)]="searchQuery" placeholder="Busca algún producto"
+          class="barrabusqueda"></ion-searchbar>
       </ion-col>
     </ion-row>
 
@@ -33,11 +39,11 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <app-inicio></app-inicio> //Utilizo el componente
-    
-    
+  <app-inicio></app-inicio>
 
-    
 
-    
+
+
+
+
 </ion-content>

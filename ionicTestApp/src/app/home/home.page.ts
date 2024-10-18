@@ -27,7 +27,9 @@ export class HomePage {
     private alertController: AlertController
   ) {}
 
-  async ngOnInit() {}
+  async ngOnInit() {
+    
+  }
 
   // Función para redirigir a la categoría seleccionada
   goToCategory(category: string) {
@@ -101,5 +103,8 @@ export class HomePage {
   palhome() {
     this.router.navigate(['/home']);
     this.menuController.close();
+  }
+  carrito(){
+    this.router.navigate(['/carrito']);
   }
 }

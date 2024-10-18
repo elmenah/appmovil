@@ -55,9 +55,15 @@ const routes: Routes = [
     loadChildren: () => import('./sucursales/sucursales.module').then( m => m.SucursalesPageModule)
   },
   {
+    path: 'carrito',
+    loadChildren: () => import('./carrito/carrito.module').then( m => m.CarritoPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule)//Pagina error siempre va al ultimo
   },
+  
+
   
 
   

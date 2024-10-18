@@ -1,6 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { ToastController } from '@ionic/angular';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+
+interface Promocion {
+  imageUrl: string;
+  description: string;
+  discount: number;
+}
+
+interface Oferta {
+  imageUrl: string;
+  description: string;
+  countdown: string;
+}
+
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
@@ -8,50 +22,66 @@ import { ToastController } from '@ionic/angular';
 })
 export class InicioComponent implements OnInit {
   sucursal: string = '';
-  promocionDelDia: any;
-  ofertaDelDia: any;
+  promocionDelDia: Promocion | null = null;
+  ofertaDelDia: Oferta | null = null;
   email: string = '';
 
-  constructor(private storage: Storage,private toastController: ToastController) {}
+  constructor(
+    private storage: Storage,
+    private toastController: ToastController,
+    private firestore: AngularFirestore
+  ) {}
 
   async ngOnInit() {
-    console.log('ngOnInit called'); // Console log para verificar que se cargo la pagina
-    this.sucursal = await this.storage.get('sucursalSeleccionada') || 'sucursal1'; //Se guarda en storage la sucursal seleccionada
-    this.loadContentForSucursal(this.sucursal); //Dependiendo la sucursal es el contenido que se cargara en home
+    console.log('ngOnInit called');
+    this.sucursal = await this.storage.get('sucursalSeleccionada') || 'sucursal1';
+    this.loadContentForSucursal(this.sucursal);
   }
 
   loadContentForSucursal(sucursal: string) {
     console.log('Sucursal seleccionada:', sucursal);
+
+    let promoDocId: string = '';
+    let ofertaDocId: string = '';
+
     if (sucursal === 'Viña') {
-      this.promocionDelDia = {
-        image: 'assets/img/cristal.jpg',
-        description: 'Pack Cristal',
-        discount: '50-40% OFF',
-      };
-      this.ofertaDelDia = {
-        image: 'assets/img/whisky.jpg',
-        countdown: '05:12:30',
-      };
+      promoDocId = 'corona';
+      ofertaDocId = 'royal';
+      
     } else if (sucursal === 'Valparaiso') {
-      this.promocionDelDia = {
-        image: 'assets/img/corona_650.jpg',
-        description: 'Pack Corona',
-        discount: '30% OFF',
-      };
-      this.ofertaDelDia = {
-        image: 'assets/img/cristal.jpg',
-        countdown: '03:15:40',
-      };
+      promoDocId = 'corona';
+      ofertaDocId = 'royal';
     } else if (sucursal === 'Quilpue') {
-      this.promocionDelDia = {
-        image: 'assets/img/cristal.jpg',
-        description: 'Pack Heineken',
-        discount: '45% OFF',
-      };
-      this.ofertaDelDia = {
-        image: 'assets/img/cristal.jpg',
-        countdown: '02:18:50',
-      };
+      promoDocId = 'corona';
+      ofertaDocId = 'royal';
+    }
+
+    if (promoDocId && ofertaDocId) {
+      this.firestore.collection('packs cervezas').doc(promoDocId).get().subscribe((promoDoc) => {
+        if (promoDoc.exists) {
+          const promoData = promoDoc.data() as Promocion;
+          this.promocionDelDia = {
+            imageUrl: promoData?.imageUrl || '',
+            description: promoData?.description || '',
+            discount: promoData?.discount || 0,
+          };
+        } else {
+          console.log('No se encontró el documento de la promoción');
+        }
+      });
+
+      this.firestore.collection('packs cervezas').doc(ofertaDocId).get().subscribe((ofertaDoc) => {
+        if (ofertaDoc.exists) {
+          const ofertaData = ofertaDoc.data() as Oferta;
+          this.ofertaDelDia = {
+            imageUrl: ofertaData?.imageUrl || '',
+            description: ofertaData?.description || '',
+            countdown: ofertaData?.countdown || '',
+          };
+        } else {
+          console.log('No se encontró el documento de la oferta');
+        }
+      });
     }
   }
 
@@ -103,3 +133,4 @@ export class InicioComponent implements OnInit {
     return re.test(String(email).toLowerCase());
   }
 }
+

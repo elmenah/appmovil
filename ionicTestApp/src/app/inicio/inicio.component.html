@@ -11,7 +11,7 @@
       <ion-card-title>Promoción del Día</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <img [src]="promocionDelDia.image" alt="Promoción">
+      <img [src]="promocionDelDia.imageUrl" alt="Promoción">
       <p>{{ promocionDelDia.description }}</p>
       <p>{{ promocionDelDia.discount }}</p>
     </ion-card-content>
@@ -22,11 +22,12 @@
       <ion-card-title>Oferta del Día</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <img [src]="ofertaDelDia.image" alt="Oferta">
+      <img [src]="ofertaDelDia.imageUrl" alt="Oferta">
+      <p>{{ ofertaDelDia.description }}</p>
       <p>{{ ofertaDelDia.countdown }}</p>
     </ion-card-content>
   </ion-card>
-  <h5>Opiniones</h5>
+  <h5 style="text-align: center;">Opiniones</h5>
     <ion-row>
       <ion-col size="6" *ngFor="let product of Productswithreview">
         <ion-card>

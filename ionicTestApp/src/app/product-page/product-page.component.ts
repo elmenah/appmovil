@@ -11,13 +11,13 @@ export class ProductPageComponent {
   // Define los datos que el componente recibirá
   @Input() product: { 
     name: string, 
-    description: string, 
+     
     price: number, 
     imageUrl: string, 
     category: string 
   } = {
     name: '',
-    description: '',
+    
     price: 0,
     imageUrl: '',
     category: ''
@@ -27,6 +27,16 @@ export class ProductPageComponent {
   // Método para añadir el producto al carrito
   addToCart() {
     console.log(`${this.product.name} añadido al carrito.`);
-    // Lógica para añadir al carrito (puedes implementar localStorage, API, etc.)
+
+    // Obtener carrito desde localStorage o inicializar uno vacío
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+    // Agregar el producto al carrito
+    cart.push(this.product);
+
+    // Guardar el carrito actualizado
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    console.log('Carrito actualizado:', cart);
   }
 }

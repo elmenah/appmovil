@@ -27,4 +27,9 @@ export class CervezaPage implements OnInit {
   logout(){
     this.router.navigate(['/login']);
   }
+
+  categoria() {
+    this.router.navigate(['/categoriacerveza']);
+    this.menuController.close();
+  }
 }
