@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { SessionManager } from 'src/managers/SessionManager';
+
+import { Storage } from '@ionic/storage-angular';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -16,7 +17,7 @@ import { getFirestore, doc, setDoc } from 'firebase/firestore';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage {
-  username: string = '';
+  usuario: string = '';
   email: string = '';
   password: string = '';
   termsAccepted: boolean = false; // Se usa para almacenar si los TYC están aceptados
@@ -24,7 +25,7 @@ export class RegisterPage {
   constructor(
     private router: Router,
     private alertController: AlertController,
-    
+    private storage: Storage
     
   ) {}
 
@@ -36,7 +37,7 @@ export class RegisterPage {
     }
 
     // Verificamos si todos los campos están completos
-    if (!this.username || !this.email || !this.password) {
+    if (!this.usuario || !this.email || !this.password) {
       alert('Por favor completa todos los campos');
       return;
     }
@@ -59,12 +60,13 @@ export class RegisterPage {
     const isRegistered = await this.performRegister(
       this.email,
       this.password,
-      this.username
+      this.usuario
     );
 
     if (isRegistered) {
       await this.presentAlert();
       this.router.navigate(['/login']); // Redirige al usuario
+      await this.storage.set('usuario', this.usuario);
     } else {
       alert('Error en el registro. Por favor intenta de nuevo.');
     }

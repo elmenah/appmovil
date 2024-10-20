@@ -43,7 +43,7 @@ export class SessionManager {
       );
       await this.setSession(true); // Guarda que el usuario está logueado
       this.userName = result.user?.email || null;
-      await this.storage.set('userName', this.userName);
+      await this.storage.set('Correo', this.userName);
       return true;
     } catch (error) {
       console.error('Error en el inicio de sesión:', error);
@@ -59,7 +59,7 @@ export class SessionManager {
       );
       this.userName = result.user?.displayName || null;
       await this.setSession(true);
-      await this.storage.set('userName', this.userName); // Guarda el nombre de usuario
+      await this.storage.set('Correo', this.userName); // Guarda el nombre de usuario
       console.log('Login exitoso:', result);
       return true;
     } catch (error) {
@@ -74,7 +74,8 @@ export class SessionManager {
   async performLogout(): Promise<void> {
     await this.afAuth.signOut(); // Cierra sesión en Firebase
     await this.setSession(false); // Establece que el usuario no está logueado
-    await this.storage.remove('userName');
+    await this.storage.remove('Correo');
+    await this.storage.remove('usuario')
   }
 
   async eliminarCuenta(): Promise<boolean> {

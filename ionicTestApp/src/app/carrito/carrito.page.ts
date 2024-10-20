@@ -28,11 +28,11 @@ export class CarritoPage implements OnInit {
 
   // Cargar el nombre de usuario y sucursal desde Ionic Storage
   async loadUserData() {
-    const username = await this.storage.get('userName');  // Suponiendo que tienes un 'username' guardado en el storage
+    const Usuario = await this.storage.get('usuario');  // Suponiendo que tienes un 'username' guardado en el storage
     const sucursal = await this.storage.get('sucursalSeleccionada');
     
-    if (username && sucursal) {
-      this.username = username;
+    if (Usuario && sucursal) {
+      this.username = Usuario;
       this.sucursal = sucursal;
     }
   }
