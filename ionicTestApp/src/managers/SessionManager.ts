@@ -10,7 +10,11 @@ import 'firebase/compat/auth';
 })
 export class SessionManager {
   public userName: string | null = null;
-  constructor(private storage: Storage, private afAuth: AngularFireAuth,private alertController: AlertController) {
+  constructor(
+    private storage: Storage,
+    private afAuth: AngularFireAuth,
+    private alertController: AlertController
+  ) {
     this.init();
   }
 
@@ -30,14 +34,15 @@ export class SessionManager {
     return session ? session : false;
   }
 
-
-  
   // Lógica para iniciar sesión con Firebase
   async performLogin(email: string, password: string): Promise<boolean> {
     try {
-      const result = await this.afAuth.signInWithEmailAndPassword(email, password);
+      const result = await this.afAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );
       await this.setSession(true); // Guarda que el usuario está logueado
-      this.userName = result.user?.email|| null;
+      this.userName = result.user?.email || null;
       await this.storage.set('userName', this.userName);
       return true;
     } catch (error) {
@@ -46,52 +51,38 @@ export class SessionManager {
     }
   }
 
-// Método para iniciar sesión con Google
+  // Método para iniciar sesión con Google
   async loginWithGoogle() {
     try {
-        const result = await this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-        this.userName = result.user?.displayName || null;
-        await this.setSession(true);
-        await this.storage.set('userName', this.userName); // Guarda el nombre de usuario
-        console.log('Login exitoso:', result);
-        return true;
-    } catch (error) {
-        console.error('Error durante el inicio de sesión:', error);
-        return false;
-    }
- }
- 
-
-  // Registro de usuario
-  async performRegister(email: string, password: string): Promise<boolean> {
-    try {
-      const result = await this.afAuth.createUserWithEmailAndPassword(email, password);
-       // Envía el correo de verificación
-      await result.user?.sendEmailVerification();
-      await this.setSession(true); // Guarda que el usuario está logueado
+      const result = await this.afAuth.signInWithPopup(
+        new firebase.auth.GoogleAuthProvider()
+      );
+      this.userName = result.user?.displayName || null;
+      await this.setSession(true);
+      await this.storage.set('userName', this.userName); // Guarda el nombre de usuario
+      console.log('Login exitoso:', result);
       return true;
     } catch (error) {
-      console.error('Error en el registro:', error);
+      console.error('Error durante el inicio de sesión:', error);
       return false;
     }
   }
 
   
 
-
   // Lógica para cerrar sesión
   async performLogout(): Promise<void> {
-    
     await this.afAuth.signOut(); // Cierra sesión en Firebase
     await this.setSession(false); // Establece que el usuario no está logueado
     await this.storage.remove('userName');
-    
   }
-  async eliminarCuenta() {
+
+  async eliminarCuenta(): Promise<boolean> {
     const auth = getAuth();
     const user = auth.currentUser;
-
+  
     if (user) {
+      // Crear alerta de confirmación
       const alert = await this.alertController.create({
         header: 'Confirmar',
         message: '¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.',
@@ -99,38 +90,62 @@ export class SessionManager {
           {
             text: 'Cancelar',
             role: 'cancel',
+            handler: () => {
+              // No se hace nada si se cancela
+              return false; // Resuelve con false si se cancela
+            },
           },
           {
             text: 'Eliminar',
             handler: async () => {
+              // Se ejecuta si el usuario presiona 'Eliminar'
               try {
                 await deleteUser(user);
                 console.log('Cuenta eliminada con éxito');
-                const alert = await this.alertController.create({
-                  
-                  message: 'Su cuenta se elimino correctamente',
-                  buttons: ['OK']
+  
+                // Alerta de éxito
+                const successAlert = await this.alertController.create({
+                  message: 'Su cuenta se eliminó correctamente.',
+                  buttons: ['OK'],
                 });
-                await alert.present();
-                // Aquí puedes redirigir al usuario o mostrar un mensaje
+                await successAlert.present();
+  
+                // Devolver true indicando que la cuenta fue eliminada
+                return true; // Resuelve con true si se eliminó
               } catch (error) {
                 console.error('Error al eliminar la cuenta:', error);
-                // Manejar errores (como requerir reautenticación)
-                await this.alertController.create({
+  
+                // Mostrar alerta de error
+                const errorAlert = await this.alertController.create({
                   header: 'Error',
                   message: 'No se pudo eliminar la cuenta. Asegúrate de que estás autenticado correctamente.',
-                  buttons: ['OK']
-                }).then(alert => alert.present());
+                  buttons: ['OK'],
+                });
+                await errorAlert.present();
+  
+                // Devolver false indicando que la eliminación falló
+                return false; // Resuelve con false si hubo un error
               }
-            }
-          }
-        ]
+            },
+          },
+        ],
       });
-
+  
+      // Presentar la alerta de confirmación
       await alert.present();
+  
+      // Esperar a que se cierre la alerta y manejar la resolución de la promesa
+      const { role } = await alert.onDidDismiss();
+      if (role === 'cancel') {
+        return false; // Se cancela la operación
+      } else {
+        // El usuario ha decidido eliminar, devolver la resolución del botón "Eliminar"
+        return true; 
+      }
     } else {
       console.log('No hay usuario autenticado');
+      return false; // Retornar false si no hay usuario
     }
   }
-
+  
 }

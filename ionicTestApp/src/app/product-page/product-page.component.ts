@@ -1,6 +1,6 @@
 // product-page.component.ts
 import { Component, Input } from '@angular/core';
-
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
@@ -22,10 +22,12 @@ export class ProductPageComponent {
     imageUrl: '',
     category: ''
   };
+  // Inyectar AlertController
+  constructor(private alertController: AlertController) {}
   
 
   // Método para añadir el producto al carrito
-  addToCart() {
+  async addToCart() {
     console.log(`${this.product.name} añadido al carrito.`);
 
     // Obtener carrito desde localStorage o inicializar uno vacío
@@ -38,5 +40,11 @@ export class ProductPageComponent {
     localStorage.setItem('cart', JSON.stringify(cart));
 
     console.log('Carrito actualizado:', cart);
+    const alert = await this.alertController.create({
+      
+      message: 'El producto se añadio al carro',
+      buttons: ['OK']
+    });
+    await alert.present();
   }
 }
