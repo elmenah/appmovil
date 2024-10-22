@@ -1,9 +1,9 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { PedidosService } from '../pedidos.service'; 
+import { PedidosService } from '../pedidos.service';
 import { AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-carrito',
   templateUrl: './carrito.page.html',
@@ -14,7 +14,13 @@ export class CarritoPage implements OnInit {
   username: string = '';
   sucursal: string = '';
 
-  constructor(private storage: Storage, private pedidosService: PedidosService,private alertController: AlertController, private menuController: MenuController ) {}
+  constructor(
+    private storage: Storage,
+    private pedidosService: PedidosService,
+    private alertController: AlertController,
+    private menuController: MenuController,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.loadCart(); // Cargar el carrito desde localStorage
@@ -28,9 +34,9 @@ export class CarritoPage implements OnInit {
 
   // Cargar el nombre de usuario y sucursal desde Ionic Storage
   async loadUserData() {
-    const Usuario = await this.storage.get('usuario');  // Suponiendo que tienes un 'username' guardado en el storage
+    const Usuario = await this.storage.get('usuario'); // Suponiendo que tienes un 'username' guardado en el storage
     const sucursal = await this.storage.get('sucursalSeleccionada');
-    
+
     if (Usuario && sucursal) {
       this.username = Usuario;
       this.sucursal = sucursal;
@@ -53,24 +59,27 @@ export class CarritoPage implements OnInit {
     const order = {
       username: this.username, // Nombre de usuario
       products: this.cart,
-      sucursal: this.sucursal,  // Sucursal seleccionada
+      sucursal: this.sucursal, // Sucursal seleccionada
       total: this.calculateTotal(),
-      date: new Date()
+      date: new Date(),
     };
 
     // Guardar el pedido en Firestore
-    this.pedidosService.saveOrder(order).then(async () => {
-      const alert = await this.alertController.create({
-        header: 'Pedido realizado',
-        message: `Ya puede retirar su pedido en la sucursal ${this.sucursal}` ,
-        buttons: ['OK'],
+    this.pedidosService
+      .saveOrder(order)
+      .then(async () => {
+        const alert = await this.alertController.create({
+          header: 'Pedido realizado',
+          message: `Ya puede retirar su pedido en la sucursal ${this.sucursal}`,
+          buttons: ['OK'],
+        });
+        await alert.present();
+        this.clearCart(); // Limpiar el carrito después de realizar la reserva
+      })
+      .catch((error) => {
+        console.error('Error al guardar el pedido:', error);
+        alert('Ocurrió un error al realizar el pedido.');
       });
-      await alert.present();
-      this.clearCart(); // Limpiar el carrito después de realizar la reserva
-    }).catch((error) => {
-      console.error('Error al guardar el pedido:', error);
-      alert('Ocurrió un error al realizar el pedido.');
-    });
   }
 
   // Calcular el total del carrito
@@ -84,7 +93,11 @@ export class CarritoPage implements OnInit {
     this.cart = [];
   }
 
-  openSecondaryMenu() {
-    this.menuController.open('secondary-menu');
+  carrito() {
+    this.router.navigate(['/carrito']);
+  }
+
+  perfil() {
+    this.router.navigate(['/perfil']);
   }
 }

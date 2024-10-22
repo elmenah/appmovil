@@ -31,6 +31,13 @@ export class CategoriacervezaPage implements OnInit {
     this.loadCervezas();
   }
 
+  carrito(){
+    this.router.navigate(['/carrito']);
+  }
+
+  perfil() {
+    this.router.navigate(['/perfil'])
+  }
   // Método para cargar las cervezas desde Firestore
   loadCervezas() {
     // Obtiene todos los documentos de la colección 'packs cervezas'

@@ -5,7 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
 import { Storage } from '@ionic/storage-angular';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
-
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -20,7 +20,8 @@ export class LoginPage implements OnInit {
     private menuController: MenuController,
     private storage: Storage,
     private alertController: AlertController,
-    private sessionManager: SessionManager
+    private sessionManager: SessionManager,
+    private afAuth: AngularFireAuth, 
   ) {}
 
   ngOnInit() {
@@ -37,6 +38,12 @@ export class LoginPage implements OnInit {
     const loginSuccess = await this.sessionManager.performLogin(this.user, this.password);
     if (loginSuccess) {
       await this.sessionManager.setSession(true);
+      const user = await this.afAuth.currentUser; // Obtiene el usuario autenticado
+      if (user) {
+        const userName = user.displayName || 'Usuario'; // Si no hay displayName, usa un valor por defecto
+        await this.storage.set('usuario', userName); // Guarda el nombre de usuario en Ionic Storage
+        console.log('Nombre de usuario guardado en storage:', userName);
+      }
       this.router.navigate(['/sucursales']);
     } else {
       this.user = '';
@@ -49,8 +56,15 @@ export class LoginPage implements OnInit {
   async onLoginButtonGoogle() {
     const loginSuccess = await this.sessionManager.loginWithGoogle();
     if (loginSuccess) {
-      const instructivoSeen = await this.storage.get('instructivoSeen');
-      this.router.navigate(['/splash']);
+      const user = await this.afAuth.currentUser; // Obtiene el usuario autenticado
+      if (user) {
+        const userName = user.displayName; // Obtiene el nombre de usuario de Google
+        await this.storage.set('usuario', userName); // Guarda el nombre de usuario en Ionic Storage
+        console.log('Nombre de usuario:', userName); // Aquí puedes manejar el nombre del usuario
+
+        const instructivoSeen = await this.storage.get('instructivoSeen');
+        this.router.navigate(['/splash']);
+      }
     } else {
       alert('Las credenciales ingresadas son inválidas.');
     }

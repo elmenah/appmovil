@@ -73,8 +73,8 @@ export class HomePage {
     localStorage.setItem('endTime', this.endTime.toString());
   }
 
-  openSecondaryMenu() {
-    this.menuController.open('secondary-menu');
+  perfil() {
+    this.router.navigate(['/perfil'])
   }
 
   logout() {

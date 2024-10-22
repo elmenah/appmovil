@@ -21,6 +21,13 @@ export class CervezaPage implements OnInit {
   ngOnInit() {
   }
   
+  carrito(){
+    this.router.navigate(['/carrito']);
+  }
+
+  perfil() {
+    this.router.navigate(['/perfil'])
+  }
   openSecondaryMenu() {
     this.menuController.open('secondary-menu');
   }

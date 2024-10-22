@@ -1,40 +1,3 @@
-
-  <!-- Menú lateral izquierdo -->
-  <ion-menu side="start" menuId="main-menu" contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Menú Principal</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item button>Inicio</ion-item>
-        <ion-item button>Sucursales</ion-item>
-        <ion-item button>Preguntas Frecuentes</ion-item>
-        <ion-item button>Contactanos</ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-
-  <!-- Menú lateral derecho -->
-  <ion-menu side="end" menuId="secondary-menu" contentId="main-content">
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Mi cuenta</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content>
-      <ion-list>
-        <ion-item button>Ver mis pedidos</ion-item>
-        <ion-item button (click)="logout()">Cerrar Sesion</ion-item>
-
-      </ion-list>
-    </ion-content>
-  </ion-menu>
-
-
-
-  <!-- Contenido principal -->
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
@@ -44,12 +7,15 @@
       <ion-title>LA TERRAZA</ion-title>
       <ion-buttons slot="end">
         <!-- Botón del menú lateral derecho con icono de avatar -->
-        <ion-button (click)="openSecondaryMenu()">
+        <a><img width="30" height="25" src="https://img.icons8.com/material-two-tone/48/shopping-cart--v1.png"
+          alt="shopping-cart--v1" style="margin-top: -4px;" (click)="carrito()"/></a>
+        <ion-button (click)="perfil()">
+  
           <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/30/user--v1.png" alt="user--v1"
-            style="margin-top: -10px;" />
+            style="margin-top: -5px;" />
+  
         </ion-button>
       </ion-buttons>
-
     </ion-toolbar>
   </ion-header>
 

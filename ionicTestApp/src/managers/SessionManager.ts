@@ -59,7 +59,7 @@ export class SessionManager {
       );
       this.userName = result.user?.displayName || null;
       await this.setSession(true);
-      await this.storage.set('Correo', this.userName); // Guarda el nombre de usuario
+      
       console.log('Login exitoso:', result);
       return true;
     } catch (error) {
