@@ -43,7 +43,7 @@ export class SessionManager {
       );
       await this.setSession(true); // Guarda que el usuario está logueado
       this.userName = result.user?.email || null;
-      await this.storage.set('Correo', this.userName);
+      
       return true;
     } catch (error) {
       console.error('Error en el inicio de sesión:', error);

@@ -19,7 +19,7 @@ export class AppComponent {
   ) {}
 
   async ngOnInit() {
-    this.usuario = await this.storage.get('usuario');
+    
   }
   async openSecondaryMenu() {
     this.menuController.open('secondary-menu');

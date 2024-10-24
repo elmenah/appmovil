@@ -40,7 +40,7 @@ export class LoginPage implements OnInit {
       await this.sessionManager.setSession(true);
       const user = await this.afAuth.currentUser; // Obtiene el usuario autenticado
       if (user) {
-        const userName = user.displayName || 'Usuario'; // Si no hay displayName, usa un valor por defecto
+        const userName = this.user || 'Usuario'; // Si no hay displayName, usa un valor por defecto
         await this.storage.set('usuario', userName); // Guarda el nombre de usuario en Ionic Storage
         console.log('Nombre de usuario guardado en storage:', userName);
       }
