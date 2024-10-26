@@ -36,11 +36,11 @@ export class HomePage {
     if (category === 'Cervezas') {
       this.router.navigate(['/categoriacerveza']); // Redirige a la página de cervezas
     } else if (category === 'Vinos') {
-      this.router.navigate(['/vinos']); // Redirige a la página de vinos
+      this.router.navigate(['/categoriavino']); // Redirige a la página de vinos
     } else if (category === 'Ron') {
-      this.router.navigate(['/ron']); // Redirige a la página de ron
+      this.router.navigate(['/categoriaron']); // Redirige a la página de ron
     } else if (category === 'Whisky') {
-      this.router.navigate(['/whisky']); // Redirige a la página de whisky
+      this.router.navigate(['/categoriawhisky']); // Redirige a la página de whisky
     }
     this.menuController.close(); // Cierra el menú después de navegar
   }
