@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Storage } from '@ionic/storage-angular';
+import { StorageService } from 'src/managers/StorageService';
 @Component({
   selector: 'app-instructivo1',
   templateUrl: './instructivo1.page.html',
@@ -8,12 +8,12 @@ import { Storage } from '@ionic/storage-angular';
 })
 export class Instructivo1Page implements OnInit {
 
-  constructor(private router: Router,private storage: Storage) { }
+  constructor(private router: Router,private StorageService: StorageService) { }
 
   async ngOnInit() {
     
     // Marcar el instructivo como visto cuando la página se cargue
-    await this.storage.set('instructivoSeen', true);
+    await this.StorageService.set('instructivoSeen', true);
   }
 
   next1(){

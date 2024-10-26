@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionManager } from 'src/managers/SessionManager';
-import { Storage } from '@ionic/storage-angular';
+import { StorageService } from 'src/managers/StorageService';
 
 @Component({
   selector: 'app-splash',
@@ -13,11 +13,11 @@ export class SplashPage implements OnInit {
   constructor(
     private router: Router, 
     private sessionManager: SessionManager,
-    private storage: Storage
+    private StorageService: StorageService
   ) {}
 
   async ngOnInit() {
-    await this.storage.create(); // Inicializa el almacenamiento
+    await this.StorageService.init(); // Inicializa el almacenamiento
   }
   async ionViewWillEnter() {
     
@@ -27,8 +27,8 @@ export class SplashPage implements OnInit {
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       // Obtener el estado de "instructivoSeen" e "isLoggedIn" desde Ionic Storage
-      const instructivoSeen = await this.storage.get('instructivoSeen');
-      const isLoggedIn = await this.sessionManager.isLoggedIn();  // Usa sessionManager
+      const instructivoSeen = await this.StorageService.get('instructivoSeen');
+      const isLoggedIn = await this.StorageService.get('isLoggedIn')  // Usa sessionManager
 
       // Registrar los valores en la consola para depuración
       console.log('instructivoSeen:', instructivoSeen);

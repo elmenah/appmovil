@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
-import { Storage } from '@ionic/storage-angular';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from 'firebase/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { UserRegistrationUseCase } from 'src/app/use-cases/user-registration.use-case';
+import { StorageService} from 'src/managers/StorageService';
+import { CancelAlertService } from 'src/managers/CancelAlertService';
 
 @Component({
   selector: 'app-register',
@@ -20,100 +14,68 @@ export class RegisterPage {
   usuario: string = '';
   email: string = '';
   password: string = '';
-  termsAccepted: boolean = false; // Se usa para almacenar si los TYC están aceptados
+  termsAccepted: boolean = false;
 
   constructor(
     private router: Router,
     private alertController: AlertController,
-    private storage: Storage
-    
+    private StorageService : StorageService,
+    private userRegistrationUseCase: UserRegistrationUseCase,
+    private alert: CancelAlertService
   ) {}
 
   async onRegisterButtonPressed() {
-    // Verificamos si los términos y condiciones han sido aceptados
     if (!this.termsAccepted) {
-      alert('Debe aceptar los términos y condiciones');
-      return;
+      return this.showAlert('Error', 'Debe aceptar los términos y condiciones');
     }
 
-    // Verificamos si todos los campos están completos
     if (!this.usuario || !this.email || !this.password) {
-      alert('Por favor completa todos los campos');
-      return;
+      return this.showAlert('Error', 'Por favor completa todos los campos');
     }
 
-    // Verificamos que el correo sea válido
     if (!this.validateEmail(this.email)) {
-      alert('Por favor introduce un correo electrónico válido');
-      return;
+      return this.showAlert('Error', 'Por favor introduce un correo electrónico válido');
     }
 
-    // Verificamos que la contraseña sea válida
     if (!this.validatePassword(this.password)) {
-      alert(
+      return this.showAlert(
+        'Error',
         'La contraseña debe tener al menos 6 caracteres y debe incluir letras mayúsculas y minúsculas.'
       );
-      return;
     }
 
-    // Se crea una constante usando el método performRegister
-    const isRegistered = await this.performRegister(
-      this.email,
-      this.password,
-      this.usuario
-    );
-
-    if (isRegistered) {
-      await this.presentAlert();
-      this.router.navigate(['/login']); // Redirige al usuario
-      await this.storage.set('usuario', this.usuario);
+    const result = await this.userRegistrationUseCase.performRegistration(this.usuario,this.email, this.password);
+    if (result.success) {
+      await this.StorageService.set('usuario', this.usuario);
+      console.log('Nombre de usuario:', this.usuario);
+      console.log('Correo:',this.email)
+      this.alert.showAlert(
+        'Registro exitoso',
+        'Ahora ya eres parte de la terraza',
+        () => {
+          this.router.navigate(['/splash']);
+        }
+      );
     } else {
-      alert('Error en el registro. Por favor intenta de nuevo.');
+      this.alert.showAlert(
+        'Error',
+        result.message,
+        () => {
+          this.clean();
+        }
+      );
     }
   }
 
-  async performRegister(
-    email: string,
-    password: string,
-    username: string
-  ): Promise<boolean> {
-    const auth = getAuth();
-    const db = getFirestore();
-
-    try {
-      const result = await createUserWithEmailAndPassword(auth, email, password);
-      const user = result.user;
-
-      // Asegúrate de que el usuario no sea null
-      if (!user) {
-        throw new Error('El usuario no se pudo crear.');
-      }
-
-      // Guarda el nombre de usuario en Firestore
-      await setDoc(doc(db, 'usuarios', user.uid), {
-        username: username,
-        email: email,
-      });
-      console.log('Se creó y guardó exitosamente el usuario', username);
-
-      // Envía correo de verificación
-      await sendEmailVerification(user); // Asegúrate de usar sendEmailVerification correctamente
-
-      return true; // Registro exitoso
-    } catch (error) {
-      console.error('Error al registrar usuario:', error);
-      return false; // Registro fallido
-    }
+  clean() {
+    this.usuario = '';
+    this.email = '';
+    this.password = '';
+    this.termsAccepted = false; // Reset terms accepted
   }
 
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Registro exitoso',
-      message: 'Su cuenta se registró correctamente',
-      buttons: ['OK'],
-    });
-
-    await alert.present();
+  async showAlert(header: string, message: string) {
+    await this.alert.showAlert(header, message, () => {});
   }
 
   validateEmail(email: string): boolean {
