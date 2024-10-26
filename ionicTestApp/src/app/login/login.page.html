@@ -19,7 +19,7 @@
       <ion-col>
         <ion-item class="inputs">
           <img src="assets/img/usuario.png" alt="Icono usuario" width="26px" style="padding-right: 10px;">
-          <ion-input placeholder="Correo" type="email" [(ngModel)]="user"></ion-input>
+          <ion-input placeholder="Correo" type="email" [(ngModel)]="email"></ion-input>
         </ion-item>
         <ion-item class="inputs">
           <img src="assets/img/contrasena.png" alt="Icono clave" width="29px" style="padding-right: 10px;">
@@ -30,14 +30,7 @@
         
         <h3 class="h3o">O</h3>
         
-        <ion-row>
-          <ion-col size="12" class="ion-text-center">
-            <ion-button fill="clear" class="btnlogingoogle" (click)="onLoginButtonGoogle()">
-              <ion-icon name="logo-google" slot="start"></ion-icon>
-              Iniciar con Google
-            </ion-button>
-          </ion-col>
-        </ion-row>
+        
 
         <div class="ion-text-center">
           <p style="color: white;">¿No tienes una cuenta?</p>

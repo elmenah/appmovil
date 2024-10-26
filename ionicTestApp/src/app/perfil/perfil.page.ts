@@ -5,6 +5,8 @@ import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { SessionManager } from 'src/managers/SessionManager';
 import { Storage } from '@ionic/storage-angular';
+import { UserLogoutUseCase } from 'src/app/use-cases/user-logout.user-case';
+import { CancelAlertService } from 'src/managers/CancelAlertService';
 import {
   getAuth,
   EmailAuthProvider,
@@ -32,7 +34,9 @@ export class PerfilPage implements OnInit {
     private router: Router,
     private sessionManager: SessionManager,
     private storage: Storage,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private cancelAlertService: CancelAlertService,
+    private logoutUseCase: UserLogoutUseCase,
   ) {}
 
   ngOnInit() {
@@ -113,12 +117,17 @@ export class PerfilPage implements OnInit {
   }
 
   logout() {
-    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      this.sessionManager.performLogout(); // Limpiar la sesión
-      this.menuController.close();
-      this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
-    }
+    this.cancelAlertService.showAlert(
+      'Cerrar sesión',
+      '¿Estás seguro de que quieres cerrar sesión?',
+      async () => {
+        this.logoutUseCase.performLogout();
+        this.router.navigate(['/comienzo']);
+      },
+      () => { }
+    );
   }
+  
 
   async deleteUser() {
     const deleted = await this.sessionManager.eliminarCuenta();

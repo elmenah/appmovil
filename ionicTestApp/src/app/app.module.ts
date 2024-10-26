@@ -10,12 +10,13 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { AngularFireModule} from '@angular/fire/compat'
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule} from '@angular/fire/compat/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 
 defineCustomElements(window);
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule,AngularFireModule.initializeApp(environment.firebaseConfig),AngularFireAuthModule, IonicModule.forRoot({mode:"md"}), AppRoutingModule, IonicStorageModule.forRoot()],
+  imports: [BrowserModule,AngularFireModule.initializeApp(environment.firebaseConfig),AngularFireDatabaseModule,AngularFireAuthModule, IonicModule.forRoot({mode:"md"}), AppRoutingModule, IonicStorageModule.forRoot()],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

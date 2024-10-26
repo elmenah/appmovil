@@ -1,74 +1,55 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionManager } from 'src/managers/SessionManager';
+import { CancelAlertService } from 'src/managers/CancelAlertService'; // Asegúrate de tener el servicio de alertas
+import { UserLoginUseCase } from 'src/app/use-cases/user-login.use-case';
 import { AlertController } from '@ionic/angular';
-import { MenuController } from '@ionic/angular';
-import { Storage } from '@ionic/storage-angular';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  user: string = '';
+
+  email: string = '';
   password: string = '';
 
   constructor(
     private router: Router,
-    private menuController: MenuController,
-    private storage: Storage,
-    private alertController: AlertController,
-    private sessionManager: SessionManager,
-    private afAuth: AngularFireAuth, 
+    private userLoginUseCase: UserLoginUseCase,
+    private alert: CancelAlertService,
+    private alertController: AlertController
   ) {}
 
-  ngOnInit() {
-    this.menuController.enable(true);
-  }
+  ngOnInit() {}
 
-  // Método para el login con usuario y contraseña
   async onLoginButtonPressed() {
-    if (this.user === '' || this.password === '') {
-      alert('Por favor completa todos los campos');
-      return;
-    }
+    const result = await this.userLoginUseCase.performLogin(this.email, this.password);
 
-    const loginSuccess = await this.sessionManager.performLogin(this.user, this.password);
-    if (loginSuccess) {
-      await this.sessionManager.setSession(true);
-      const user = await this.afAuth.currentUser; // Obtiene el usuario autenticado
-      if (user) {
-        const userName = this.user || 'Usuario'; // Si no hay displayName, usa un valor por defecto
-        await this.storage.set('usuario', userName); // Guarda el nombre de usuario en Ionic Storage
-        console.log('Nombre de usuario guardado en storage:', userName);
-      }
-      this.router.navigate(['/sucursales']);
+    if (result.success) {
+      this.alert.showAlert(
+        'Login exitoso',
+        'Has iniciado sesión correctamente.',
+        () => {
+          this.router.navigate(['/splash']); // Navegar a 'splash' cuando el usuario presiona "Aceptar"
+        }
+      );
     } else {
-      this.user = '';
-      this.password = '';
-      alert('Las credenciales ingresadas son inválidas.');
+      this.alert.showAlert(
+        'Error',
+        result.message,
+        () => {
+          // Se puede agregar alguna lógica aquí si es necesario
+        }
+      );
     }
   }
 
-  // Método para login con Google
-  async onLoginButtonGoogle() {
-    const loginSuccess = await this.sessionManager.loginWithGoogle();
-    if (loginSuccess) {
-      const user = await this.afAuth.currentUser; // Obtiene el usuario autenticado
-      if (user) {
-        const userName = user.displayName; // Obtiene el nombre de usuario de Google
-        await this.storage.set('usuario', userName); // Guarda el nombre de usuario en Ionic Storage
-        console.log('Nombre de usuario:', userName); // Aquí puedes manejar el nombre del usuario
+  
 
-        const instructivoSeen = await this.storage.get('instructivoSeen');
-        this.router.navigate(['/splash']);
-      }
-    } else {
-      alert('Las credenciales ingresadas son inválidas.');
-    }
-  }
+
+
+  
 
   // Método para ir al formulario de registro
   onRegisterButtonPressed() {
