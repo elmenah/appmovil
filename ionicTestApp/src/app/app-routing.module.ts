@@ -25,7 +25,6 @@ const routes: Routes = [
     loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
   },
   
-  
   {
     path: 'comienzo',
     loadChildren: () => import('./comienzo/comienzo.module').then( m => m.ComienzoPageModule)
@@ -61,6 +60,30 @@ const routes: Routes = [
   {
     path: 'perfil',
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'categoriavino',
+    loadChildren: () => import('./categoriavino/categoriavino.module').then( m => m.CategoriavinoPageModule)
+  },
+  {
+    path: 'vino',
+    loadChildren: () => import('./vino/vino.module').then( m => m.VinoPageModule)
+  },
+  {
+    path: 'ron',
+    loadChildren: () => import('./ron/ron.module').then( m => m.RonPageModule)
+  },
+  {
+    path: 'categoriaron',
+    loadChildren: () => import('./categoriaron/categoriaron.module').then( m => m.CategoriaronPageModule)
+  },
+  {
+    path: 'whisky',
+    loadChildren: () => import('./whisky/whisky.module').then( m => m.WhiskyPageModule)
+  },
+  {
+    path: 'categoriawhisky',
+    loadChildren: () => import('./categoriawhisky/categoriawhisky.module').then( m => m.CategoriawhiskyPageModule)
   },
   {
     path: '**',

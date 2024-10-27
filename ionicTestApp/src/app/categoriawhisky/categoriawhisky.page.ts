@@ -40,7 +40,7 @@ export class CategoriawhiskyPage implements OnInit {
 
   // Método para cargar los whiskies desde Firestore
   loadWhiskies() {
-    this.firestore.collection('packs whiskies').snapshotChanges().subscribe((whiskiesSnapshot) => {
+    this.firestore.collection('packs whiskys').snapshotChanges().subscribe((whiskiesSnapshot) => {
       this.whiskies = [];
       whiskiesSnapshot.forEach((doc: any) => {
         const whisky = doc.payload.doc.data() as Whisky;
