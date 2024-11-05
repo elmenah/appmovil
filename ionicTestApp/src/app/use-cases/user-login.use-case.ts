@@ -7,17 +7,22 @@ import { StorageService } from 'src/managers/StorageService';
   providedIn: 'root',
 })
 export class UserLoginUseCase {
-
   constructor(
     private fireAuth: AngularFireAuth,
     private db: AngularFireDatabase,
     private storageService: StorageService
   ) {}
 
-  async performLogin(email: string, password: string): Promise<{ success: boolean; message: string }> {
+  async performLogin(
+    email: string,
+    password: string
+  ): Promise<{ success: boolean; message: string }> {
     try {
       // Autenticar el usuario utilizando Firebase Authentication
-      const userCredential = await this.fireAuth.signInWithEmailAndPassword(email, password);
+      const userCredential = await this.fireAuth.signInWithEmailAndPassword(
+        email,
+        password
+      );
       const user = userCredential.user;
 
       if (user) {
@@ -30,39 +35,49 @@ export class UserLoginUseCase {
 
         if (userData) {
           // Manejo de campos vacíos (nombre de usuario y foto de perfil)
-          const displayName = userData.displayName || '';  // Si es nulo, guarda un string vacío
-          const photoURL = userData.photoURL || '';  // Si es nulo, guarda un string vacío
+          const displayName = userData.displayName || '';
+          const photoURL = userData.photoURL || '';
 
           // Guardar los datos obtenidos de Realtime Database en Ionic Storage
           await this.storageService.set('user', {
             uid: uid,
-            email: userData.email || '',  // Si email es nulo, guarda string vacío
+            email: userData.email || '',
             displayName: displayName,
-            photoURL: photoURL
+            photoURL: photoURL,
           });
-          await this.storageService.set('isLoggedIn', true);  // Cambiado aquí
-
-          return { success: true, message: "Login successful" };
+          await this.storageService.set('isLoggedIn', true);
+          await this.storageService.set('nombreuser',email)
+          return { success: true, message: 'Login successful' };
         } else {
-          return { success: false, message: "User not found in Realtime Database" };
+          return {
+            success: false,
+            message: 'User not found in Realtime Database',
+          };
         }
-
       } else {
-        return { success: false, message: "Authentication failed, user not found" };
+        return {
+          success: false,
+          message: 'Authentication failed, user not found',
+        };
       }
     } catch (error: any) {
       let errorMessage = 'Error during login';
 
-      if (error.code) {  // Añadido chequeo de existencia
+      if (error.code) {
         switch (error.code) {
           case 'auth/user-not-found':
-            errorMessage = 'User not found. Please check your credentials.';
+            errorMessage =
+              'Usuario no encontrado. Por favor, verifica tus credenciales.';
             break;
           case 'auth/wrong-password':
-            errorMessage = 'Incorrect password. Please try again.';
+            errorMessage = 'Contraseña incorrecta. Inténtalo de nuevo.';
             break;
           case 'auth/invalid-email':
-            errorMessage = 'Invalid email format.';
+            errorMessage = 'Formato de correo electrónico no válido.';
+            break;
+          case 'auth/invalid-credential':
+            errorMessage =
+              'Las credenciales de autenticación son incorrectas.';
             break;
           default:
             errorMessage += ': ' + error.message;

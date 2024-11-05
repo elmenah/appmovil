@@ -26,16 +26,12 @@ export class RonPage implements OnInit {
     this.router.navigate(['/perfil']);
   }
 
-  openSecondaryMenu() {
-    this.menuController.open('secondary-menu');
-  }
+  
 
-  logout() {
-    this.router.navigate(['/login']);
-  }
+  
 
   categoria() {
     this.router.navigate(['/categoriaron']);
-    this.menuController.close();
+    
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
+import { StorageService } from 'src/managers/StorageService';
 import { PedidosService } from '../pedidos.service';
 import { AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 export class CarritoPage implements OnInit {
   cart: any[] = []; // Arreglo para almacenar los productos del carrito
   username: string = '';
-  sucursal: string = '';
+  Sucursal: string = '';
 
   constructor(
-    private storage: Storage,
+    private StorageService: StorageService,
     private pedidosService: PedidosService,
     private alertController: AlertController,
     private menuController: MenuController,
@@ -27,20 +27,24 @@ export class CarritoPage implements OnInit {
     this.loadUserData(); // Cargar el nombre de usuario y sucursal desde Ionic Storage
   }
 
-  // Cargar el carrito desde localStorage
-  loadCart() {
-    this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  async loadCart() {
+    try {
+      const storedCart = await this.StorageService.get('cart'); 
+      this.cart = storedCart || []; // Setea el carro con la const storedCart
+    } catch (error) {
+      console.error('Error loading cart:', error);
+      this.cart = []; 
+    }
   }
 
   // Cargar el nombre de usuario y sucursal desde Ionic Storage
   async loadUserData() {
-    const Usuario = await this.storage.get('usuario'); // Suponiendo que tienes un 'username' guardado en el storage
-    const sucursal = await this.storage.get('sucursalSeleccionada');
+    const Usuario = await this.StorageService.get('nombreuser'); // Suponiendo que tienes un 'username' guardado en el storage
+    
+    const sucursal = await this.StorageService.get('sucursalSeleccionada');
 
-    if (Usuario && sucursal) {
-      this.username = Usuario;
-      this.sucursal = sucursal;
-    }
+    this.Sucursal = sucursal;
+    this.username = Usuario;
   }
 
   // Método para realizar la reserva
@@ -59,7 +63,7 @@ export class CarritoPage implements OnInit {
     const order = {
       username: this.username, // Nombre de usuario
       products: this.cart,
-      sucursal: this.sucursal, // Sucursal seleccionada
+      sucursal: this.Sucursal, // Sucursal seleccionada
       total: this.calculateTotal(),
       date: new Date(),
     };
@@ -70,7 +74,7 @@ export class CarritoPage implements OnInit {
       .then(async () => {
         const alert = await this.alertController.create({
           header: 'Pedido realizado',
-          message: `Ya puede retirar su pedido en la sucursal ${this.sucursal}`,
+          message: `Ya puede retirar su pedido en la sucursal ${this.Sucursal}`,
           buttons: ['OK'],
         });
         await alert.present();
@@ -88,8 +92,8 @@ export class CarritoPage implements OnInit {
   }
 
   // Limpiar el carrito
-  clearCart() {
-    localStorage.removeItem('cart');
+  async clearCart() {
+    await this.StorageService.remove('cart');
     this.cart = [];
   }
 

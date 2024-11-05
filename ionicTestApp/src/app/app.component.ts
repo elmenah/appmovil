@@ -27,13 +27,7 @@ export class AppComponent {
   cerrarmenu() {
     this.menuController.close();
   }
-  logout() {
-    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      this.sessionManager.performLogout(); // Limpiar la sesión
-      this.menuController.close();
-      this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
-    }
-  }
+ 
 
   async deleteUser() {
     const deleted = await this.sessionManager.eliminarCuenta();

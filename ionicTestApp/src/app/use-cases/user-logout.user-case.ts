@@ -19,10 +19,11 @@ export class UserLogoutUseCase {
 
       
       await this.storageService.remove('isLoggedIn');
+      await this.storageService.remove('user');
 
-      return { success: true, message: "Sesión finalizada en firebase y usuario eliminado de Ionic Storage" };
+      return { success: true, message: "Sesión finalizada" };
     } catch (error: any) {
-      let errorMessage = 'No se pudo cerrar sesión en firebase';
+      let errorMessage = 'No se pudo cerrar sesión';
 
       if (error.message) {
         errorMessage += ': ' + error.message;

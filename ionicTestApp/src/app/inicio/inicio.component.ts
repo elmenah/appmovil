@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
+import { StorageService } from 'src/managers/StorageService';
 import { ToastController } from '@ionic/angular';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
@@ -27,14 +27,14 @@ export class InicioComponent implements OnInit {
   email: string = '';
 
   constructor(
-    private storage: Storage,
+    private StorageService: StorageService,
     private toastController: ToastController,
     private firestore: AngularFirestore
   ) {}
 
   async ngOnInit() {
     console.log('ngOnInit called');
-    this.sucursal = await this.storage.get('sucursalSeleccionada') || 'sucursal1';
+    this.sucursal = await this.StorageService.get('sucursalSeleccionada') || 'sucursal1';
     this.loadContentForSucursal(this.sucursal);
   }
 

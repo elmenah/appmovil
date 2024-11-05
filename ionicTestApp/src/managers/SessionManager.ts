@@ -34,22 +34,7 @@ export class SessionManager {
     return session ? session : false;
   }
 
-  // Lógica para iniciar sesión con Firebase
-  async performLogin(email: string, password: string): Promise<boolean> {
-    try {
-      const result = await this.afAuth.signInWithEmailAndPassword(
-        email,
-        password
-      );
-      await this.setSession(true); // Guarda que el usuario está logueado
-      this.userName = result.user?.email || null;
-      
-      return true;
-    } catch (error) {
-      console.error('Error en el inicio de sesión:', error);
-      return false;
-    }
-  }
+  
 
   // Método para iniciar sesión con Google
   async loginWithGoogle() {

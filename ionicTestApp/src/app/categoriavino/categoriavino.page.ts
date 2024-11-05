@@ -60,21 +60,11 @@ export class CategoriavinoPage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
-    this.menuController.enable(true, 'main-menu'); // Habilita el menú principal
-    this.menuController.enable(true, 'secondary-menu'); // Habilita el menú secundario
-  }
+  
 
-  openSecondaryMenu() {
-    this.menuController.open('secondary-menu');
-  }
+  
 
-  logout() {
-    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      this.sessionManager.performLogout(); // Limpiar sesión
-      this.router.navigate(['/login']);
-    }
-  }
+ 
 
   verProducto(vino: Vino) {
     this.router.navigate(['/vino'], { state: { product: vino } });

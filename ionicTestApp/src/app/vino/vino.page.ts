@@ -26,16 +26,12 @@ export class VinoPage implements OnInit {
     this.router.navigate(['/perfil']);
   }
 
-  openSecondaryMenu() {
-    this.menuController.open('secondary-menu');
-  }
+  
 
-  logout() {
-    this.router.navigate(['/login']);
-  }
+  
 
   categoria() {
     this.router.navigate(['/categoriavino']);
-    this.menuController.close();
+   
   }
 }

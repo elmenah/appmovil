@@ -46,7 +46,7 @@ export class RegisterPage {
 
     const result = await this.userRegistrationUseCase.performRegistration(this.usuario,this.email, this.password);
     if (result.success) {
-      await this.StorageService.set('usuario', this.usuario);
+      
       console.log('Nombre de usuario:', this.usuario);
       console.log('Correo:',this.email)
       this.alert.showAlert(
