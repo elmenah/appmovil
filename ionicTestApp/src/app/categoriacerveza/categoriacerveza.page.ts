@@ -65,17 +65,9 @@ export class CategoriacervezaPage implements OnInit {
     this.menuController.enable(true, 'secondary-menu'); // Habilita el menú secundario
   }
 
-  openSecondaryMenu() {
-    this.menuController.open('secondary-menu');
-  }
+  
 
-  logout() {
-    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      this.sessionManager.performLogout(); // Limpiar sesión
-      // Redirigir a la página de login
-      this.router.navigate(['/login']);
-    }
-  }
+  
 
   verProducto(cerveza: Cerveza) {
     this.router.navigate(['/cerveza'], { state: { product: cerveza } });

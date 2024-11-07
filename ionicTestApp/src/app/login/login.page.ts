@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CancelAlertService } from 'src/managers/CancelAlertService'; // Asegúrate de tener el servicio de alertas
 import { UserLoginUseCase } from 'src/app/use-cases/user-login.use-case';
+import { UserLoginGoogleUseCase} from 'src/app/use-cases/user-login-google.use-case'
 import { AlertController } from '@ionic/angular';
 import { UserRessetPasswordUseCase } from 'src/app/use-cases/user-resset-password.use-case';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
@@ -17,6 +18,7 @@ export class LoginPage implements OnInit {
   constructor(
     private router: Router,
     private userLoginUseCase: UserLoginUseCase,
+    private UserLoginGoogleUseCase: UserLoginGoogleUseCase,
     private UserRessetPasswordUseCase: UserRessetPasswordUseCase,
     private alert: CancelAlertService,
     private alertController: AlertController
@@ -40,6 +42,22 @@ export class LoginPage implements OnInit {
       );
     } else {
       this.alert.showAlert('Error', result.message, () => {});
+    }
+  }
+
+  async onLoginGoogleButtonPressed(){
+    const result = await this.UserLoginGoogleUseCase.loginWithGoogle();
+    if (result.success){
+      this.alert.showAlert(
+        'Login exitoso',
+        'Has iniciado sesión correctamente.',
+        () => {
+          this.router.navigate(['/splash']);
+        }
+      );
+    } else {
+      this.alert.showAlert('Error', result.message, () => {});
+    
     }
   }
 

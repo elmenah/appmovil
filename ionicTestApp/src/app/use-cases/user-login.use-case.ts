@@ -37,10 +37,12 @@ export class UserLoginUseCase {
           // Manejo de campos vacíos (nombre de usuario y foto de perfil)
           const displayName = userData.displayName || '';
           const photoURL = userData.photoURL || '';
+          const username = userData.nombreuser;
 
           // Guardar los datos obtenidos de Realtime Database en Ionic Storage
           await this.storageService.set('user', {
             uid: uid,
+            nombreusuario: userData.nombreuser,
             email: userData.email || '',
             displayName: displayName,
             photoURL: photoURL,

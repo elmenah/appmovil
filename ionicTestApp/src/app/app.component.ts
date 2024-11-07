@@ -29,14 +29,5 @@ export class AppComponent {
   }
  
 
-  async deleteUser() {
-    const deleted = await this.sessionManager.eliminarCuenta();
-    if (deleted == true) {
-      this.router.navigate(['/register']);
-      this.menuController.close();
-      this.sessionManager.setSession(false);
-    } else {
-      console.log('No se elimino la cuenta');
-    }
-  }
+  
 }

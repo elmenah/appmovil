@@ -85,10 +85,9 @@ export class CarritoPage implements OnInit {
         alert('Ocurrió un error al realizar el pedido.');
       });
   }
-
-  // Calcular el total del carrito
+  //Calcular total del carrito
   calculateTotal() {
-    return this.cart.reduce((total, product) => total + product.price);
+    return this.cart.reduce((total, product) => total + Number(product.price), 0);
   }
 
   // Limpiar el carrito

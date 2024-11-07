@@ -23,10 +23,7 @@ export class SessionManager {
     await this.storage.create();
   }
 
-  // Guarda el estado del login en Ionic Storage
-  async setSession(isLoggedIn: boolean): Promise<void> {
-    await this.storage.set('isLoggedIn', isLoggedIn);
-  }
+  
 
   // Verifica si el usuario está logueado usando Ionic Storage
   async isLoggedIn(): Promise<boolean> {
@@ -43,7 +40,7 @@ export class SessionManager {
         new firebase.auth.GoogleAuthProvider()
       );
       this.userName = result.user?.displayName || null;
-      await this.setSession(true);
+    
       
       console.log('Login exitoso:', result);
       return true;
@@ -55,13 +52,7 @@ export class SessionManager {
 
   
 
-  // Lógica para cerrar sesión
-  async performLogout(): Promise<void> {
-    await this.afAuth.signOut(); // Cierra sesión en Firebase
-    await this.setSession(false); // Establece que el usuario no está logueado
-    await this.storage.remove('Correo');
-    await this.storage.remove('usuario')
-  }
+  
 
   async eliminarCuenta(): Promise<boolean> {
     const auth = getAuth();

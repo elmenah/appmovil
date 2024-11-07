@@ -77,12 +77,7 @@ export class HomePage {
     this.router.navigate(['/perfil'])
   }
 
-  logout() {
-    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      this.sessionManager.performLogout(); // Clear session
-      this.router.navigate(['/login']); // Redirect to login page
-    }
-  }
+  
 
   // Validación básica de email
   validateEmail(email: string): boolean {

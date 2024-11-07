@@ -63,12 +63,7 @@ export class CategoriawhiskyPage implements OnInit {
     this.menuController.open('secondary-menu');
   }
 
-  logout() {
-    if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-      this.sessionManager.performLogout();
-      this.router.navigate(['/login']);
-    }
-  }
+  
 
   verProducto(whisky: Whisky) {
     this.router.navigate(['/whisky'], { state: { product: whisky } });

@@ -34,11 +34,9 @@ export class PerfilPage implements OnInit {
           ? user.email
           : 'Correo no disponible';
 
-      // Chequeo de nombre, si es nulo o vacío, asignar valor por defecto
+      // Chequeo de nombre
       this.userName =
-        user.displayName && user.displayName.trim() !== ''
-          ? user.displayName
-          : 'Nombre no disponible';
+        user.nombreusuario ;
 
       // Chequeo de foto, si es nula o vacía, asignar foto por defecto
       this.userPhotoURL =

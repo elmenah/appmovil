@@ -34,11 +34,13 @@
             <img [src]="userPhotoURL" alt="Avatar">
           </ion-avatar>
           <ion-label>
-            <h2>{{ userEmail }}</h2>
+            <h2 style="color: black;">Correo: {{ userEmail }}</h2>
           </ion-label>
-          <ion-item>
-            <ion-input [(ngModel)]="userName" placeholder="Introduce tu nombre"></ion-input>
-          </ion-item>
+          <ion-label>
+            <h2 style="color: black;">Nombre de usuario actual: {{ userName }} </h2>
+            <ion-input placeholder="Introduce tu nuevo nombre de usuario"></ion-input>
+            <ion-button (click)="onUpdateButtonPressed()">Cambiar nombre de usuario</ion-button>
+          </ion-label>
         </ion-card-content>
       </ion-card>
     </div>
