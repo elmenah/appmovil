@@ -88,7 +88,7 @@ export class CarritoPage implements OnInit {
 
   // Calcular el total del carrito
   calculateTotal() {
-    return this.cart.reduce((total, product) => total + product.price, 0);
+    return this.cart.reduce((total, product) => total + product.price);
   }
 
   // Limpiar el carrito
