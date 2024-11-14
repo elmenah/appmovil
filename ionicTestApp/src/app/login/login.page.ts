@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CancelAlertService } from 'src/managers/CancelAlertService'; // Asegúrate de tener el servicio de alertas
 import { UserLoginUseCase } from 'src/app/use-cases/user-login.use-case';
-import { UserLoginGoogleUseCase} from 'src/app/use-cases/user-login-google.use-case'
+import { UserLoginGoogleUseCase } from 'src/app/use-cases/user-login-google.use-case'
 import { AlertController } from '@ionic/angular';
 import { UserRessetPasswordUseCase } from 'src/app/use-cases/user-resset-password.use-case';
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
@@ -22,16 +22,16 @@ export class LoginPage implements OnInit {
     private UserRessetPasswordUseCase: UserRessetPasswordUseCase,
     private alert: CancelAlertService,
     private alertController: AlertController
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   async onLoginButtonPressed() {
     const result = await this.userLoginUseCase.performLogin(
       this.email,
       this.password
     );
-
+  
     if (result.success) {
       this.alert.showAlert(
         'Login exitoso',
@@ -45,9 +45,9 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async onLoginGoogleButtonPressed(){
+  async onLoginGoogleButtonPressed() {
     const result = await this.UserLoginGoogleUseCase.loginWithGoogle();
-    if (result.success){
+    if (result.success) {
       this.alert.showAlert(
         'Login exitoso',
         'Has iniciado sesión correctamente.',
@@ -56,8 +56,8 @@ export class LoginPage implements OnInit {
         }
       );
     } else {
-      this.alert.showAlert('Error', result.message, () => {});
-    
+      this.alert.showAlert('Error', result.message, () => { });
+
     }
   }
 

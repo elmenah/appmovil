@@ -31,28 +31,6 @@ export class SessionManager {
     return session ? session : false;
   }
 
-  
-
-  // Método para iniciar sesión con Google
-  async loginWithGoogle() {
-    try {
-      const result = await this.afAuth.signInWithPopup(
-        new firebase.auth.GoogleAuthProvider()
-      );
-      this.userName = result.user?.displayName || null;
-    
-      
-      console.log('Login exitoso:', result);
-      return true;
-    } catch (error) {
-      console.error('Error durante el inicio de sesión:', error);
-      return false;
-    }
-  }
-
-  
-
-  
 
   async eliminarCuenta(): Promise<boolean> {
     const auth = getAuth();

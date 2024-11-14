@@ -18,27 +18,33 @@ export class UserLoginUseCase {
     password: string
   ): Promise<{ success: boolean; message: string }> {
     try {
+      // Verificar si el usuario ya está logueado
+      const currentUser = await this.fireAuth.currentUser;
+      if (currentUser) {
+        return { success: false, message: 'Ya estás logueado.' };
+      }
+  
       // Autenticar el usuario utilizando Firebase Authentication
       const userCredential = await this.fireAuth.signInWithEmailAndPassword(
         email,
         password
       );
       const user = userCredential.user;
-
+  
       if (user) {
         const uid = user.uid;
-
+  
         // Obtener la información del usuario desde Realtime Database
         const userRef = this.db.object(`/users/${uid}`);
         const userDataSnapshot = await userRef.query.once('value');
         const userData = userDataSnapshot.val();
-
+  
         if (userData) {
           // Manejo de campos vacíos (nombre de usuario y foto de perfil)
           const displayName = userData.displayName || '';
           const photoURL = userData.photoURL || '';
           const username = userData.nombreuser;
-
+  
           // Guardar los datos obtenidos de Realtime Database en Ionic Storage
           await this.storageService.set('user', {
             uid: uid,
@@ -48,7 +54,8 @@ export class UserLoginUseCase {
             photoURL: photoURL,
           });
           await this.storageService.set('isLoggedIn', true);
-          await this.storageService.set('nombreuser',email)
+          await this.storageService.set('nombreuser', email);
+  
           return { success: true, message: 'Login successful' };
         } else {
           return {
@@ -64,7 +71,7 @@ export class UserLoginUseCase {
       }
     } catch (error: any) {
       let errorMessage = 'Error during login';
-
+  
       if (error.code) {
         switch (error.code) {
           case 'auth/user-not-found':
@@ -86,10 +93,11 @@ export class UserLoginUseCase {
             break;
         }
       }
-
+  
       return { success: false, message: errorMessage };
     }
   }
+  
 
   // Verifica si el usuario está logueado usando Ionic Storage
   async isLoggedIn(): Promise<boolean> {

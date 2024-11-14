@@ -20,7 +20,8 @@ export class UserLogoutUseCase {
       
       await this.storageService.remove('isLoggedIn');
       await this.storageService.remove('user');
-
+      await this.storageService.remove('nombreuser');
+      await this.storageService.remove('cart');
       return { success: true, message: "Sesión finalizada" };
     } catch (error: any) {
       let errorMessage = 'No se pudo cerrar sesión';

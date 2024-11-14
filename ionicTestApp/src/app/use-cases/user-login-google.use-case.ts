@@ -7,6 +7,7 @@ import { StorageService } from 'src/managers/StorageService';
 })
 export class UserLoginGoogleUseCase {
   public userName: string | null = null;
+  correo: string | null = null;
 
   constructor(private storageService: StorageService) {}
 
@@ -15,10 +16,24 @@ export class UserLoginGoogleUseCase {
     try {
       const auth = getAuth();  // Obtenemos la instancia de Auth
       const provider = new GoogleAuthProvider();  // Creamos el proveedor de Google
-      const result = await signInWithPopup(auth, provider);  // Iniciamos sesión con el pop-up
+      
+      
+      
+      // Iniciar sesión con Google
+      const result = await signInWithPopup(auth, provider);  // Iniciamos sesión con el popup
 
-      this.userName = result.user?.displayName || null;
-      this.storageService.set('nombreuser', this.userName);
+      // Obtener información del usuario autenticado
+      const user = result.user;
+      const userName = user.displayName || null;
+      const correo = user.email;
+
+      // Guardar la información del usuario en Ionic Storage
+      await this.storageService.set('nombreuser', userName);
+      await this.storageService.set('isLoggedIn', true);
+      await this.storageService.set('user', {
+        nombreusuario: userName,
+        email: correo || ''
+      });
 
       console.log('Login exitoso:', result);
       return { success: true, message: 'Login successful' };

@@ -36,7 +36,7 @@ export class PerfilPage implements OnInit {
 
       // Chequeo de nombre
       this.userName =
-        user.nombreusuario ;
+        user.nombreusuario || this.storageService.get('nombreuser') ;
 
       // Chequeo de foto, si es nula o vacía, asignar foto por defecto
       this.userPhotoURL =
