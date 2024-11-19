@@ -45,19 +45,14 @@ export class LoginPage implements OnInit {
     }
   }
 
-  async onLoginGoogleButtonPressed() {
+  async loginGoogle() {
     const result = await this.UserLoginGoogleUseCase.loginWithGoogle();
     if (result.success) {
-      this.alert.showAlert(
-        'Login exitoso',
-        'Has iniciado sesión correctamente.',
-        () => {
-          this.router.navigate(['/splash']);
-        }
-      );
+      console.log('Usuario autenticado:', result.user);
+      // Aquí puedes redirigir al usuario o manejar su sesión
+      this.router.navigate(['/splash']);
     } else {
-      this.alert.showAlert('Error', result.message, () => { });
-
+      console.error('Error en el inicio de sesión:', result.message);
     }
   }
 

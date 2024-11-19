@@ -5,6 +5,8 @@ import { UserLogoutUseCase } from 'src/app/use-cases/user-logout.user-case';
 import { StorageService } from 'src/managers/StorageService';
 import { UserUpdateUseCase } from 'src/app/use-cases/user-update.use-case';
 import { CancelAlertService } from 'src/managers/CancelAlertService';
+import { ImageService } from 'src/managers/image-service';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil',
@@ -15,13 +17,16 @@ export class PerfilPage implements OnInit {
   userEmail: string = '';
   userName: string = '';
   userPhotoURL: string = 'assets/default-avatar.png';
+  nombreNuevo: string = '';
 
   constructor(
     private storageService: StorageService,
     private Router: Router,
     private userUpdateUseCase: UserUpdateUseCase,
     private UserLogoutUseCase: UserLogoutUseCase,
-    private alert: CancelAlertService
+    private alert: CancelAlertService,
+    private imageService: ImageService,
+    private actionSheetController: ActionSheetController
   ) {}
 
   async ngOnInit() {
@@ -48,19 +53,70 @@ export class PerfilPage implements OnInit {
 
   async onUpdateButtonPressed() {
     const result = await this.userUpdateUseCase.performUserUpdate(
-      this.userName
+      this.nombreNuevo
     );
 
     if (result.success) {
       this.alert.showAlert(
         'Actualización Exitosa',
         'Tu perfil ha sido actualizado correctamente.',
-        () => {}
+        () => {location.reload();}
       );
     } else {
       this.alert.showAlert('Error', result.message, () => {});
     }
   }
+
+  async onProfileImagePressed() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Selecciona una opción',
+      buttons: [
+        {
+          text: 'Cámara',
+          icon: 'camera',
+          handler: async () => {
+            const uploadResult = await this.imageService.getImageFromCamera();
+            this.handleImageUploadResult(uploadResult);
+          }
+        },
+        {
+          text: 'Imágenes',
+          icon: 'image',
+          handler: async () => {
+            const uploadResult = await this.imageService.getImageFromGallery();
+            this.handleImageUploadResult(uploadResult);
+          },
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel',
+          handler: () => { }
+        }
+      ]
+    });
+    await actionSheet.present();
+  }
+
+  private handleImageUploadResult(uploadResult: { success: boolean, message: string, imageUrl?: string }) {
+    if (uploadResult.success) {
+      this.alert.showAlert(
+        'Imagen Actualizada',
+        'Tu imagen de perfil ha sido actualizada con éxito.',
+        () => {
+          this.userPhotoURL = uploadResult.imageUrl || 'assets/default-avatar.png';
+        }
+      );
+    } else {
+      this.alert.showAlert(
+        'Error',
+        uploadResult.message,
+        () => { }
+      );
+    }
+  }
+
+
   perfil() {
     this.Router.navigate(['/perfil']);
   }

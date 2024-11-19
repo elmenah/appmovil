@@ -34,6 +34,7 @@ export class UserUpdateUseCase {
         // Actualizar el usuario en StorageService
         const updatedUserData = {
           uid: uid,
+          nombreusuario: newName,
           email: currentUser.email,
           emailVerified: currentUser.emailVerified,
           displayName: newName,

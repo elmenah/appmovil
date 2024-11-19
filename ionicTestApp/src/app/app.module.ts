@@ -11,7 +11,8 @@ import { AngularFireModule} from '@angular/fire/compat'
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule} from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-
+import { initializeApp } from 'firebase/app';
+const firebaseApp = initializeApp(environment.firebaseConfig);
 defineCustomElements(window);
 
 @NgModule({

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { StorageService } from 'src/managers/StorageService';
 
 @Injectable({
@@ -14,8 +15,8 @@ export class UserLogoutUseCase {
 
   async performLogout(): Promise<{ success: boolean; message: string }> {
     try {
-      // Sign out from Firebase
-      await this.fireAuth.signOut();
+      const auth = getAuth();
+      await signOut(auth);
 
       
       await this.storageService.remove('isLoggedIn');
