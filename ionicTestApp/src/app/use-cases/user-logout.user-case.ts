@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { getAuth, signOut } from 'firebase/auth';
 import { StorageService } from 'src/managers/StorageService';
-
+import { GeolocationService } from 'src/managers/geolocation';
 @Injectable({
   providedIn: 'root',
 })
@@ -10,7 +10,8 @@ export class UserLogoutUseCase {
 
   constructor(
     private fireAuth: AngularFireAuth,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private GeolocationService: GeolocationService
   ) {}
 
   async performLogout(): Promise<{ success: boolean; message: string }> {
@@ -18,7 +19,7 @@ export class UserLogoutUseCase {
       const auth = getAuth();
       await signOut(auth);
 
-      
+      await this.GeolocationService.removeSavedLocation();
       await this.storageService.remove('isLoggedIn');
       await this.storageService.remove('user');
       await this.storageService.remove('nombreuser');
