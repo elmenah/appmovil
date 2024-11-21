@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { sendEmailVerification } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserRegistrationUseCase {
+  photo = 'src/assets/img/usuario.png';
+
   constructor(
     private fireAuth: AngularFireAuth,
     private db: AngularFireDatabase
   ) {}
-  photo = 'src/assets/img/usuario.png';
+
   async performRegistration(
     username: string,
     email: string,
@@ -25,35 +28,37 @@ export class UserRegistrationUseCase {
       const user = userCredential.user;
 
       if (user) {
-        // Obtén el UID, el nombre de usuario y la URL de la foto de perfil (si existen)
-        const nombredeusuario = username;
-        const uid = user.uid;
-        const displayName = user.displayName || ''; // Si no hay nombre, guarda un string vacío
-        const photoURL = this.photo; // Si no hay URL de imagen, guarda un string vacío
-
         // Crear objeto con los datos del usuario
         const userData = {
-          nombreuser: nombredeusuario,
-          uid: uid,
-          email: email,
-          displayName: displayName,
-          photoURL: photoURL,
+          nombreuser: username,
+          uid: user.uid,
+          email: user.email || '',
+          displayName: user.displayName || '',
+          photoURL: this.photo,
         };
 
         // Guarda la información del usuario en Realtime Database
-        await this.db.object(`/users/${uid}`).set(userData);
+        await this.db.object(`/users/${user.uid}`).set(userData);
+
+        // Envía el correo de confirmación
+        await sendEmailVerification(user)
+          .then(() => {
+            console.log('Correo de confirmación enviado.');
+          })
+          .catch((error) => {
+            console.error('Error al enviar el correo de confirmación:', error);
+          });
       }
 
-      // Devuelve true si fue exitoso, con un mensaje
-      return { success: true, message: 'Usuario registrado con éxito' };
+      // Devuelve true si fue exitoso
+      return { success: true, message: 'Usuario registrado con éxito. Se ha enviado un correo de confirmación.' };
     } catch (error: any) {
       // Manejo de errores basado en el código de Firebase
       let errorMessage = 'Ocurrió un error al registrar el usuario';
 
       switch (error.code) {
         case 'auth/email-already-in-use':
-          errorMessage =
-            'Este correo electrónico ya está en uso. Por favor, utiliza otro o inicia sesión.';
+          errorMessage = 'Este correo electrónico ya está en uso. Por favor, utiliza otro o inicia sesión.';
           break;
         case 'auth/invalid-email':
           errorMessage = 'La dirección de correo electrónico no es válida.';
@@ -66,7 +71,7 @@ export class UserRegistrationUseCase {
           break;
       }
 
-      // Devuelve false si hubo un error, junto con el mensaje de error
+      // Devuelve false si hubo un error
       return { success: false, message: errorMessage };
     }
   }
