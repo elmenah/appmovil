@@ -47,7 +47,7 @@ export class PerfilPage implements OnInit {
       this.userPhotoURL =
         user.photoURL && user.photoURL.trim() !== ''
           ? user.photoURL
-          : 'assets/default-avatar.png';
+          : 'src/assets/img/usuario.png';
     }
   }
 

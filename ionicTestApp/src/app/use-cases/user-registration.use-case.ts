@@ -10,7 +10,7 @@ export class UserRegistrationUseCase {
     private fireAuth: AngularFireAuth,
     private db: AngularFireDatabase
   ) {}
-
+  photo = 'src/assets/img/usuario.png';
   async performRegistration(
     username: string,
     email: string,
@@ -29,7 +29,7 @@ export class UserRegistrationUseCase {
         const nombredeusuario = username;
         const uid = user.uid;
         const displayName = user.displayName || ''; // Si no hay nombre, guarda un string vacío
-        const photoURL = user.photoURL || ''; // Si no hay URL de imagen, guarda un string vacío
+        const photoURL = this.photo; // Si no hay URL de imagen, guarda un string vacío
 
         // Crear objeto con los datos del usuario
         const userData = {

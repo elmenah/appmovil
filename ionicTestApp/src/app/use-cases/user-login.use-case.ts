@@ -18,11 +18,7 @@ export class UserLoginUseCase {
     password: string
   ): Promise<{ success: boolean; message: string }> {
     try {
-      // Verificar si el usuario ya está logueado
-      const currentUser = await this.fireAuth.currentUser;
-      if (currentUser) {
-        return { success: false, message: 'Ya estás logueado.' };
-      }
+      
   
       // Autenticar el usuario utilizando Firebase Authentication
       const userCredential = await this.fireAuth.signInWithEmailAndPassword(
