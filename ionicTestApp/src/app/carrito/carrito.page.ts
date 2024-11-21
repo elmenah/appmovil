@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StorageService } from 'src/managers/StorageService';
+import {GeolocationService} from 'src/managers/geolocation';
 import { PedidosService } from '../pedidos.service';
 import { AlertController } from '@ionic/angular';
 import { MenuController } from '@ionic/angular';
@@ -20,11 +21,19 @@ export class CarritoPage implements OnInit {
     private alertController: AlertController,
     private menuController: MenuController,
     private router: Router,
+    private GeolocationService : GeolocationService
   ) {}
 
   ngOnInit() {
     this.loadCart(); // Cargar el carrito desde localStorage
     this.loadUserData(); // Cargar el nombre de usuario y sucursal desde Ionic Storage
+  }
+
+  async abrirgoogleMaps() {
+    const location = await this.GeolocationService.getSavedLocation();
+    if (location) {
+      this.GeolocationService.openGoogleMaps(location.latitude, location.longitude);
+    }
   }
 
   async loadCart() {
@@ -58,7 +67,6 @@ export class CarritoPage implements OnInit {
     this.saveOrder();
   }
 
-  // Guardar el pedido en Firestore
   async saveOrder() {
     const order = {
       username: this.username, // Nombre de usuario
@@ -75,10 +83,22 @@ export class CarritoPage implements OnInit {
         const alert = await this.alertController.create({
           header: 'Pedido realizado',
           message: `Ya puede retirar su pedido en la sucursal ${this.Sucursal}`,
-          buttons: ['OK'],
+          buttons: [
+            {
+              text: 'OK',
+              handler: async () => {
+                // Al presionar el botón "OK", obtenemos la ubicación actual
+                const location = await this.GeolocationService.getLocation();
+                if (location) {
+                  // Llamamos a abrirGoogleMaps con la ubicación actual
+                  this.GeolocationService.openGoogleMaps(location.latitude, location.longitude);
+                }
+              }
+            }
+          ],
         });
         await alert.present();
-        this.clearCart(); // Limpiar el carrito después de realizar la reserva
+        this.clearCart(); // Limpiar el carrito después de realizar el pedido
       })
       .catch((error) => {
         console.error('Error al guardar el pedido:', error);

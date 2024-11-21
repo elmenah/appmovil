@@ -6,9 +6,9 @@ import { StorageService } from 'src/managers/StorageService';
   providedIn: 'root',
 })
 export class GeolocationService {
-  constructor(private StorageService: StorageService) {}
+  constructor(private storageService: StorageService) {}
 
-  // Cambiar para que retorne la ubicación
+  // 1. Función para obtener la ubicación actual
   async getLocation(): Promise<any> {
     try {
       const position = await Geolocation.getCurrentPosition();
@@ -17,22 +17,41 @@ export class GeolocationService {
         longitude: position.coords.longitude,
         timestamp: position.timestamp,
       };
-
-      // Guardar la ubicación
-      await this.StorageService.set('savedLocation', locationData);
       
       // Retornar la ubicación obtenida
+      this.saveLocation(locationData);
       return locationData;
     } catch (error) {
-      console.error('Error getting location:', error);
+      console.error('Error al obtener la ubicación:', error);
       return null; // Devuelve null en caso de error
     }
   }
 
+  // Función para guardar la ubicación
+  async saveLocation(locationData: any): Promise<void> {
+    try {
+      await this.storageService.set('savedLocation', locationData);
+      console.log('Ubicación guardada correctamente');
+    } catch (error) {
+      console.error('Error al guardar la ubicación:', error);
+    }
+  }
+
+  // Función para abrir Google Maps con la ubicación actual y una predeterminada
+  openGoogleMaps(currentLatitude: number, currentLongitude: number): void {
+    const destinationLatitude = -33.0089245; // Ejemplo: latitud de la ubicación destino (Mall Marina)
+    const destinationLongitude = -71.5482706; // Ejemplo: longitud de la ubicación destino
+
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${currentLatitude},${currentLongitude}&destination=${destinationLatitude},${destinationLongitude}&travelmode=driving`;
+    window.open(url, '_system'); // Esto abre Google Maps en una nueva ventana del navegador
+  }
+
+  //Crear un if para que dependiendo la sucursal elegida se abran diferentes destinos
+
   // Función para recuperar la ubicación guardada
   async getSavedLocation() {
     try {
-      const savedLocation = await this.StorageService.get('savedLocation');
+      const savedLocation = await this.storageService.get('savedLocation');
       if (savedLocation) {
         console.log('Ubicación recuperada:', savedLocation);
         return savedLocation;
@@ -41,18 +60,18 @@ export class GeolocationService {
         return null;
       }
     } catch (error) {
-      console.error('Error al recuperar la ubicación', error);
+      console.error('Error al recuperar la ubicación:', error);
       return null;
     }
   }
-   // Eliminar la ubicación guardada
-   async removeSavedLocation() {
+
+  // Función para eliminar la ubicación guardada
+  async removeSavedLocation() {
     try {
-      await this.StorageService.remove('savedLocation');
+      await this.storageService.remove('savedLocation');
       console.log('Ubicación eliminada correctamente.');
     } catch (error) {
       console.error('Error al eliminar la ubicación:', error);
     }
   }
-
 }
