@@ -11,7 +11,7 @@ $RECYCLE.BIN/
 
 *.log
 log.txt
-
+ionicTestApp/backend/firebase-credentials.json.json
 .backend/*
 /.sourcemaps
 /.versions
