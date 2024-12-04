@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+import { HttpClientModule } from '@angular/common/http';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { defineCustomElements } from "@teamhive/lottie-player/loader";
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ defineCustomElements(window);
     AngularFireAuthModule,
     IonicModule.forRoot({ mode: "md" }),
     AppRoutingModule,
+    HttpClientModule,
     IonicStorageModule.forRoot(),
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

@@ -86,9 +86,15 @@ const routes: Routes = [
     loadChildren: () => import('./categoriawhisky/categoriawhisky.module').then( m => m.CategoriawhiskyPageModule)
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then( m => m.AdminPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./error/error.module').then( m => m.ErrorPageModule)//Pagina error siempre va al ultimo
   },
+  
+
   
 
   
